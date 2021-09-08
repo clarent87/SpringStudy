@@ -5,10 +5,12 @@ import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional // jpa쓰려먼 이거 무조건 필요
 public class MemberService {
     /*
     그.. 컨트롤러에서 쓰려는 비지니스 로직. n-tier.. 구조랬던가?

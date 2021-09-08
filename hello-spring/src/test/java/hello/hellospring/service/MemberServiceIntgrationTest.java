@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +23,7 @@ class MemberServiceIntgrationTest {
     @Autowired  MemberRepository memberRepository;
 
     @Test
+//    @Commit 이거 쓰면 Transactional있어도 db에 적용됨. 즉 rollback되지 않음.
     void 회원가입() {
         // givne
         Member member = new Member();
