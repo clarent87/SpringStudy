@@ -17,15 +17,15 @@ public class HelloController {
 
     @GetMapping("hello-mvc")
     public String helloMvc(@RequestParam("name") String name, Model model) {
+        // TODO: 이거 무슨 원리지?
         model.addAttribute("name", name);
-        return "hello-template";
+        return "hello-template"; // TODO:요청을 이쪽으로 보낸다는 건가?
     }
 
     @GetMapping("hello-string")
     @ResponseBody
     public String helloString(@RequestParam("name")String name) {
         return "hello" + name;
-
     }
 
     // API방식의 진짜는 아래
