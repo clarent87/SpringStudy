@@ -17,9 +17,8 @@ public class HelloController {
 
     @GetMapping("hello-mvc")
     public String helloMvc(@RequestParam("name") String name, Model model) {
-        // TODO: 이거 무슨 원리지?
         model.addAttribute("name", name);
-        return "hello-template"; // TODO:요청을 이쪽으로 보낸다는 건가?
+        return "hello-template"; // 템플릿 렌더링시 model 객체의 내용을 확인해서 치환하는듯.. 뭐 어떻게 model을 확인하는지는..
     }
 
     @GetMapping("hello-string")
