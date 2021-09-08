@@ -1,29 +1,26 @@
 package hello.hellospring.service;
 
 import hello.hellospring.domain.Member;
+import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
+@Transactional
 class MemberServiceIntgrationTest {
 
-    MemberService memberService;
-    MemoryMemberRepository memberRepository;
+    // test 코드에서는 귀찮으니까 그냥 변수주입을 진행한다. (생성자 말고.. )
+    @Autowired  MemberService memberService;
+    @Autowired  MemberRepository memberRepository;
 
-
-    @BeforeEach
-    public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository); // DI
-    }
-    @AfterEach
-    public void afterEach() {
-        memberRepository.clearStore();
-    }
     @Test
     void 회원가입() {
         // givne
