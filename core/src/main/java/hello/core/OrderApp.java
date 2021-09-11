@@ -5,13 +5,19 @@ import hello.core.Order.OrderService;
 import hello.core.member.Grade;
 import hello.core.member.Member;
 import hello.core.member.MemberService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class OrderApp {
     public static void main(String[] args) {
 
-        AppConfig appConfig = new AppConfig();
-        MemberService memberService = appConfig.memberService();
-        OrderService orderService = appConfig.orderService();
+//        AppConfig appConfig = new AppConfig();
+//        MemberService memberService = appConfig.memberService();
+//        OrderService orderService = appConfig.orderService();
+
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
 
         // 일단 회원 하나 만들어 줘야함.
         Long memberId = 1L;
@@ -21,5 +27,6 @@ public class OrderApp {
         Order order = orderService.createOrder(memberId, "itemA", 10000);
 
         System.out.println("order = " + order);
+
     }
 }
