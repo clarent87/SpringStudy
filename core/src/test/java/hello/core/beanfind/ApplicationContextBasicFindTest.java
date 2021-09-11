@@ -3,14 +3,13 @@ package hello.core.beanfind;
 import hello.core.AppConfig;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ApplicationContextBasicFindTest {
 
@@ -27,12 +26,11 @@ class ApplicationContextBasicFindTest {
 
     }
 
-
     @Test
     @DisplayName("이름없이 타입으로만 조회")
     void findBeanByType() {
         MemberService memberService = ac.getBean(MemberService.class); // 이거 장단이 있다. 같은 type이 여러게 등록되어 있을수도 있나봄. .
-                                                                        // 보면 type은 인터페이스를 넣어줬네..
+        // 보면 type은 인터페이스를 넣어줬네..
         assertThat(memberService).isInstanceOf(MemberServiceImpl.class);
     }
 
