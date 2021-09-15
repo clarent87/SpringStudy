@@ -1,6 +1,7 @@
 package hello.core.scope;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -42,14 +43,19 @@ public class SingletonWithPrototypeTest1 {
 
     @Scope("singleton") // 이거 생략해도됨.. default가 singleton이라
     static class ClientBean {
-        private final PrototypeBean prototypeBean; // 생성시점에 주입되고 fix 됨.
-        
+
         @Autowired
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        private ObjectProvider<PrototypeBean> prototypeBeanProvider; // 생성자 주입으로 받아도 된다.
+
+
+//        @Autowired
+//        public ClientBean(PrototypeBean prototypeBean) {
+//            this.prototypeBean = prototypeBean;
+//        }
 
         public int logic() {
+            // 이 시점에 컨테이너에서 빈 객체 찾아줌. ( getBean으로 직접 찾는거 대신해 주는것, 딱 DL정도의 기능만 제공)
+            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
