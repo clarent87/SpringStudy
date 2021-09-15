@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,7 +26,7 @@ public class SingletonWithPrototypeTest1 {
 
         PrototypeBean prototypeBean2 = ac.getBean(PrototypeBean.class);
         prototypeBean2.addCount();
-        assertThat(prototypeBean2.getCount()).isEqualTo(1);
+        assertThat(prototypeBean2.getCount()).isEqualTo(2);
     }
 
     @Test
@@ -38,14 +39,14 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class); // 1이랑 같은 객체.
         int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
     }
 
     @Scope("singleton") // 이거 생략해도됨.. default가 singleton이라
     static class ClientBean {
 
         @Autowired
-        private ObjectProvider<PrototypeBean> prototypeBeanProvider; // 생성자 주입으로 받아도 된다.
+        private Provider<PrototypeBean> prototypeBeanProvider; // 생성자 주입으로 받아도 된다.
 
 
 //        @Autowired
@@ -55,7 +56,7 @@ public class SingletonWithPrototypeTest1 {
 
         public int logic() {
             // 이 시점에 컨테이너에서 빈 객체 찾아줌. ( getBean으로 직접 찾는거 대신해 주는것, 딱 DL정도의 기능만 제공)
-            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
