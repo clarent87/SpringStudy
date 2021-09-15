@@ -1,6 +1,7 @@
 package hello.core.common;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -8,7 +9,7 @@ import javax.annotation.PreDestroy;
 import java.util.UUID;
 
 @Component
-@Scope(value = "request") // @Scope("request") 이렇게 해도 됨.
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS) // @Scope("request") 이렇게 해도 됨.
 public class MyLogger {
 
     private String uuid;
