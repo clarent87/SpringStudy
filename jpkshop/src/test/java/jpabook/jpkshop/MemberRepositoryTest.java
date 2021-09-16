@@ -1,15 +1,13 @@
 package jpabook.jpkshop;
 
+import jpabook.jpkshop.domain.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,7 +33,8 @@ public class MemberRepositoryTest {
         Assertions.assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
         Assertions.assertThat(findMember).isEqualTo(member); // true
 
-        // jpa강의에 나오는데, 같은 영속성 context안에서는 같은 id값이면 같은 entity로 식별한다.
+        // jpa강의에 나온다는데, 같은 영속성 context안에서는 같은 id값이면 같은 entity로 식별한다.
+        // 영속성? 같은 Transactional 안?
         System.out.println("findMember == member " + (findMember == member));
 
     }
