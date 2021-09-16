@@ -1,9 +1,12 @@
 package jpabook.jpkshop.domain.item;
 
+import jpabook.jpkshop.domain.Category;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -20,4 +23,7 @@ public abstract class Item {
     private String name;
     private int price;
     private int stockQuantity;
+
+    @ManyToMany(mappedBy = "items") // 카테고리의 items 필드
+    private List<Category> categories = new ArrayList<>();
 }
