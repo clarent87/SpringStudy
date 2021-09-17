@@ -23,6 +23,8 @@ public class ItemRepository {
             // 이경우 신규 등록이 아닌 update라고 보면된다. (진짜 update는 아니지만.. )
             em.merge(item);
         }
+
+        //TODO: 근데 다른 애들은 왜 위처럼 하지 않았지??
     }
 
     public Item findOne(Long id) {
