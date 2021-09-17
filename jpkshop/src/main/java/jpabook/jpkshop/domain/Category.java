@@ -28,7 +28,7 @@ public class Category {
     private List<Item> items = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id") // TODO: 이건 어디에 있지? -> FK 세팅한거 같다.  맞음. 
+    @JoinColumn(name = "parent_id") // TODO: 이건 어디에 있지? -> FK 세팅한거 같다.  맞음.
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
