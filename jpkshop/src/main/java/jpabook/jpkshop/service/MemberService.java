@@ -4,7 +4,6 @@ package jpabook.jpkshop.service;
 import jpabook.jpkshop.domain.Member;
 import jpabook.jpkshop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +15,7 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    
+
     // 생성자 하나일땐 spring이 자동 인젝션
 //    public MemberService(MemberRepository memberRepository) {
 //        this.memberRepository = memberRepository;
@@ -32,15 +31,15 @@ public class MemberService {
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getUsername());
+        List<Member> findMembers = memberRepository.findByName(member.getName());
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원 입니다. ");
         }
 
         // 실무에서는 WAS가 여러개 뜨므로(멀티쓰레딩 같이. .) 
         // validateDuplicateMember 메소드로는 멀티쓰레딩 환경 대응이 안됨
-            // 즉 동시에 validateDuplicateMember를 타고 save가 호출됨. 
-            // 즉 동시에 같은 이름의 Member가 저장될수 있다.
+        // 즉 동시에 validateDuplicateMember를 타고 save가 호출됨.
+        // 즉 동시에 같은 이름의 Member가 저장될수 있다.
         // 그래서 db의 user_name 필드는 unique제약조건으로 걸어서 같은 이름의 member가 저장되지 않게 한번더 방어해야한다. 
     }
 

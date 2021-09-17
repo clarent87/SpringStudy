@@ -16,7 +16,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id; // 이거 long 대신 boxing.. (bigint에 대응함. )
 
-    private String username;
+    private String name;
 
     @Embedded
     private Address address;
