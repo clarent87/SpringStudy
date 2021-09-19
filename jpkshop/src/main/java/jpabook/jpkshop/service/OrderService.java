@@ -48,7 +48,26 @@ public class OrderService {
         return order.getId();
     }
 
-    // 취소
+    /**
+     * 주문 취소
+     */
+
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        //주문 엔티티 조회
+        Order order = orderRepository.findOne(orderId);
+        //주문 취소
+        order.cancel();
+
+        // 보통은 위와 같이 하고
+        // db를 업데이트하는 로직을 service 계층에 작성해줘야한다. (즉 transactional scirpt를 비지니스 계층에서 써야함.)
+        // => code만 보면(위) 단순히 객체의 값을 수정하는 것밖에 없음. 즉 db update는 따로 필요.
+        //    근데 이걸 jpa가 자동으로 해줌.
+        //    즉, 엔티티 안에서 바뀐 포인트들을 jpa가 체크해서 db에 update -> this is 더티 체킹 (변경내역 감지)
+
+        // TODO: save같은경우는 em에 없는 객체를 넣어주는거니까 persist한거고, cancel의 경우 em에서 가져온
+        //       객체의 변경이라Update를 자동으로 해준듯..
+    }
 
     // 검색
 }
