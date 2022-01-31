@@ -25,12 +25,10 @@ public class RequestHeaderServlet extends HttpServlet {
         System.out.println("--- REQUEST-LINE - start ---");
         System.out.println("request.getMethod() = " + request.getMethod()); //GET
         System.out.println("request.getProtocal() = " + request.getProtocol()); // HTTP/1.1
-        System.out.println("request.getScheme() = " + request.getScheme()); //http  // http://localhost:8080/request-header
-        System.out.println("request.getRequestURL() = " + request.getRequestURL());
-        // /request-test
-        System.out.println("request.getRequestURI() = " + request.getRequestURI());
-        //username=hi
-        System.out.println("request.getQueryString() = " + request.getQueryString());
+        System.out.println("request.getScheme() = " + request.getScheme()); //http
+        System.out.println("request.getRequestURL() = " + request.getRequestURL()); // http://localhost:8080/request-header
+        System.out.println("request.getRequestURI() = " + request.getRequestURI());// /request-test
+        System.out.println("request.getQueryString() = " + request.getQueryString()); //username=hi
         System.out.println("request.isSecure() = " + request.isSecure()); // https 사용 유무
         System.out.println("--- REQUEST-LINE - end ---");
         System.out.println();
@@ -58,15 +56,12 @@ public class RequestHeaderServlet extends HttpServlet {
     private void printHeaderUtils(HttpServletRequest request) {
         System.out.println("--- Header 편의 조회 start ---");
         System.out.println("[Host 편의 조회]");
-        System.out.println("request.getServerName() = " +
-                request.getServerName()); //Host 헤더
-        System.out.println("request.getServerPort() = " +
-                request.getServerPort()); //Host 헤더
+        System.out.println("request.getServerName() = " + request.getServerName()); //Host 헤더
+        System.out.println("request.getServerPort() = " + request.getServerPort()); //Host 헤더
         System.out.println();
         System.out.println("[Accept-Language 편의 조회]");
         request.getLocales().asIterator()
-                .forEachRemaining(locale -> System.out.println("locale = " +
-                        locale));
+                .forEachRemaining(locale -> System.out.println("locale = " + locale));
         System.out.println("request.getLocale() = " + request.getLocale());
         System.out.println();
         System.out.println("[cookie 편의 조회]");

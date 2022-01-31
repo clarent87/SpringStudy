@@ -19,6 +19,7 @@ public class RequestBodyStringServlet extends HttpServlet {
         String message = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);// 받은 bytecode를 string으로 변환
             // 보통 다 UTF_8 많이씀
 
+
         System.out.println("message = " + message);
         response.getWriter().write("ok");
         

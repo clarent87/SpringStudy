@@ -18,7 +18,7 @@ public class ResponseHeaderServlet extends HttpServlet {
 
         // [response-headers]
         response.setHeader("Content-Type", "text/plain;charset=utf-8");
-            // 아래 두줄은 cache 무효화기능
+        // 아래 두줄은 cache 무효화기능
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("my-header","hello");
@@ -53,6 +53,8 @@ public class ResponseHeaderServlet extends HttpServlet {
         //Location: /basic/hello-form.html
         //response.setStatus(HttpServletResponse.SC_FOUND); //302
         //response.setHeader("Location", "/basic/hello-form.html");
+
+        // 위 두줄을 아래 하나로 끝냄
         response.sendRedirect("/basic/hello-form.html");
     }
 }
