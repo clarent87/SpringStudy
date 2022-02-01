@@ -48,7 +48,7 @@ public class FrontControllerServletV4 extends HttpServlet {
         String viewName = controller.process(paramMap, model);
 
         // jsp 이름 받아서 MyView 만들고 v2에서 하던 일 진행
-         MyView view = viewResolver(viewName); // 이부분도 detail하다고 해서 method로 뽑음.
+        MyView view = viewResolver(viewName); // 이부분도 detail하다고 해서 method로 뽑음.
         view.render(model, request, response);
     }
 
