@@ -278,12 +278,14 @@ application/json 은 스펙상 utf-8 형식을 사용하도록 정의되어 있�
 ### Model 추가 - v3 (80)
 
 - jsp render를 위한 MyView 대신 ModelView라는것을 생성함
-  - 차이점은 jsp로 원래 request, response를 직접 넘기는거 대신, 필요한 data만 넘김
+  - **차이점은 jsp로 원래 request, response를 직접 넘기는거 대신, 필요한 data만 넘김**
 
 - 뷰 리졸버
   - jsp의 디렉토리가 변경되었을때, 개별 controller를 손보지 않아도 된다. 
 
 ### 단순하고 실용적인 컨트롤러 - v4 (89)
+
+- ModelView를 쓰지 않음. process의 결과를 param으로 전달되는 map에 추가되게 함
 
 - 문제점이 남음
   - ControllerV4말고 ControllerV1 의 인터페이스로 개발하고 싶을때 해결할 방법이 없다 
@@ -295,7 +297,16 @@ application/json 은 스펙상 utf-8 형식을 사용하도록 정의되어 있�
   - 일단 impl해야하는 interface가 약간 인위적임 ( 기존 target이 아니라, 만든것)
   - 어댑티를 어댑터가 가지고 있지는 않음
   - 즉, 원래 target에 안들어 가는 어댑티를 위한 어댑터 개념은 아님
+  - > 근데 얼추 어댑터 느낌이긴함
 
 ### 유연한 컨트롤러2 - v5 (103)
 
-### 정리
+- controllerv4를 위한 어댑터 추가
+  
+### 정리 (106)
+
+- annotation을 지원하는 핸들러 어댑터를 만들면 spring-mvc와 같아진다. 
+  - > v5까지 진행한것을 보면 controllerv3,v4를 위한 핸들러 어댑터를 만들었었음. 
+- spring-mvc에서도 어댑터가 매우 중요함
+  - ex: `@RequestMapping("/hello)` 어노테이션을 처리하는 어댑터는?
+  - RequestMappingHandlerAdapter
