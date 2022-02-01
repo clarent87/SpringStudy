@@ -19,7 +19,8 @@
     <title>Title</title>
 </head>
 <body>
-서공공<ul>
+서공
+<ul>
     <li>id=<%=member.getId()%></li>
     <li>username=<%=member.getUsername()%></li>
     <li>age=<%=member.getAge()%></li>
