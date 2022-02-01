@@ -260,11 +260,25 @@ application/json 은 스펙상 utf-8 형식을 사용하도록 정의되어 있�
 
 ## 4. MVC 프레임 워크 만들기
 
-### 프론트 컨틀롤러 도입 - v1
+### 프론트 컨트롤러 패턴 소개 (67)
 
-### View 분리 - v2
+- 프론트 컨트롤러 "서블릿" 이 모든 요청을 받아서 공통 처리후, 다른 컨트롤러를 호출해줌
+  - > 이게 핵심
+  - 스프링 웹 MVC의 DispatcherServlet이 FrontController 패턴으로 구현되어 있음
 
-### Model 추가 - v3
+### 프론트 컨틀롤러 도입 - v1 (68)
+
+### View 분리 - v2 (74)
+
+- MyView를 통해서 jsp forwarding 진행
+  - > 이경우는 jsp를 통해서 html를 반환하는 case인건데.. 단순 json return일땐? 어떻게 되는 걸까?
+- request, response 처리는 현재는 거의 jsp에서 만 처리한다.  ( 아직 save에서 쓰기는 함)
+  - > 그래서 이부분이 필요없어서 개선하려고 함 다음 장에서..
+
+### Model 추가 - v3 (80)
+
+- jsp render를 위한 MyView 대신 ModelView라는것을 생성함
+  - 차이점은 jsp로 원래 request, response를 직접 넘기는거 대신, 필요한 data만 넘김
 
 ### 단순하고 실용적인 컨트롤러 - v4
 
