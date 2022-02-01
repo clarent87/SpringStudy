@@ -280,7 +280,10 @@ application/json 은 스펙상 utf-8 형식을 사용하도록 정의되어 있�
 - jsp render를 위한 MyView 대신 ModelView라는것을 생성함
   - 차이점은 jsp로 원래 request, response를 직접 넘기는거 대신, 필요한 data만 넘김
 
-### 단순하고 실용적인 컨트롤러 - v4
+- 뷰 리졸버
+  - jsp의 디렉토리가 변경되었을때, 개별 controller를 손보지 않아도 된다. 
+
+### 단순하고 실용적인 컨트롤러 - v4 (89)
 
 ### 유연한 컨트롤러1 - v5
 
