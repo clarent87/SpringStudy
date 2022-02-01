@@ -1,5 +1,53 @@
 # 스피링 MVC 1
 
+- [스피링 MVC 1](#스피링-mvc-1)
+  - [웹 애플리케이션 이해](#웹-애플리케이션-이해)
+    - [웹 서버, 웹 애플리케이션 서버](#웹-서버-웹-애플리케이션-서버)
+    - [서블릿(15)](#서블릿15)
+    - [동시 요청 - 멀티 쓰레드(22)](#동시-요청---멀티-쓰레드22)
+    - [HTML, HTTP API, CSR, SSR](#html-http-api-csr-ssr)
+    - [자바 백엔드 웹 기술 역사](#자바-백엔드-웹-기술-역사)
+  - [서블릿 (22)](#서블릿-22)
+    - [프로젝트 생성](#프로젝트-생성)
+    - [hello 서블릿 (6)](#hello-서블릿-6)
+    - [HttpServletRequest - 개요 (13)](#httpservletrequest---개요-13)
+    - [HttpServletRequest - 기본 사용법 (14)](#httpservletrequest---기본-사용법-14)
+    - [Http 요청 데이터  - 개요 (20)](#http-요청-데이터----개요-20)
+    - [HTTP 요청 데이터 - GET 쿼리 파라미터 (21)](#http-요청-데이터---get-쿼리-파라미터-21)
+    - [HTTP 요청 데이터 POST HTML Form (25)](#http-요청-데이터-post-html-form-25)
+    - [HTTP 요청 데이터 - api 메시지 바디 - 단순 텍스트 (27)](#http-요청-데이터---api-메시지-바디---단순-텍스트-27)
+    - [Http 요청 데이터 - API 메시지 바디 -json (28)](#http-요청-데이터---api-메시지-바디--json-28)
+    - [HttpServletResponse - 기본사용법 (32)](#httpservletresponse---기본사용법-32)
+    - [HTTP 응답 데이터 - 단순 텍스터,HTML (34)](#http-응답-데이터---단순-텍스터html-34)
+    - [Http 응답 데이터 - API JSON (36)](#http-응답-데이터---api-json-36)
+    - [정리](#정리)
+  - [3. 서블릿, jsp, mvc 패턴](#3-서블릿-jsp-mvc-패턴)
+    - [회원관리 웹 애플리케이션 요구사항](#회원관리-웹-애플리케이션-요구사항)
+    - [서블릿으로 회원 관리 웹 애플리케이션 만들기 (42)](#서블릿으로-회원-관리-웹-애플리케이션-만들기-42)
+    - [JSP로 회원 관리 웹 애플리케이션 만들기 (50)](#jsp로-회원-관리-웹-애플리케이션-만들기-50)
+    - [MVC 패턴 - 개요 (55)](#mvc-패턴---개요-55)
+    - [MVC 패턴 - 적용 (58)](#mvc-패턴---적용-58)
+    - [MVC 패턴 - 한계 (65)](#mvc-패턴---한계-65)
+    - [정리](#정리-1)
+  - [4. MVC 프레임 워크 만들기](#4-mvc-프레임-워크-만들기)
+    - [프론트 컨트롤러 패턴 소개 (67)](#프론트-컨트롤러-패턴-소개-67)
+    - [프론트 컨틀롤러 도입 - v1 (68)](#프론트-컨틀롤러-도입---v1-68)
+    - [View 분리 - v2 (74)](#view-분리---v2-74)
+    - [Model 추가 - v3 (80)](#model-추가---v3-80)
+    - [단순하고 실용적인 컨트롤러 - v4 (89)](#단순하고-실용적인-컨트롤러---v4-89)
+    - [유연한 컨트롤러1 - v5 (95)](#유연한-컨트롤러1---v5-95)
+    - [유연한 컨트롤러2 - v5 (103)](#유연한-컨트롤러2---v5-103)
+    - [정리 (106)](#정리-106)
+  - [5. 스프링 MVC - 구조 이해](#5-스프링-mvc---구조-이해)
+    - [스프링 MVC 전체 구조 (107)](#스프링-mvc-전체-구조-107)
+    - [핸들러 매핑과 핸들러 어댑터 (112)](#핸들러-매핑과-핸들러-어댑터-112)
+    - [뷰 리졸버 (117)](#뷰-리졸버-117)
+    - [스프링 MVC - 시작하기 (120)](#스프링-mvc---시작하기-120)
+    - [스프링 MVC - 컨트롤러 통합 (125)](#스프링-mvc---컨트롤러-통합-125)
+    - [스프링 MVC - 실용적인 방식](#스프링-mvc---실용적인-방식)
+    - [정리](#정리-2)
+
+
 ## 웹 애플리케이션 이해
 
 ### 웹 서버, 웹 애플리케이션 서버
@@ -279,17 +327,18 @@ application/json 은 스펙상 utf-8 형식을 사용하도록 정의되어 있�
 
 - jsp render를 위한 MyView 대신 ModelView라는것을 생성함
   - **차이점은 jsp로 원래 request, response를 직접 넘기는거 대신, 필요한 data만 넘김**
+  - 대신 MyView는 frontController에서 사용
 
 - 뷰 리졸버
-  - jsp의 디렉토리가 변경되었을때, 개별 controller를 손보지 않아도 된다. 
+  - jsp의 디렉토리가 변경되었을때, 개별 controller를 손보지 않아도 된다.
 
 ### 단순하고 실용적인 컨트롤러 - v4 (89)
 
 - ModelView를 쓰지 않음. process의 결과를 param으로 전달되는 map에 추가되게 함
 
 - 문제점이 남음
-  - ControllerV4말고 ControllerV1 의 인터페이스로 개발하고 싶을때 해결할 방법이 없다 
-  - > adapter 개념으로 해결한다고 한다. 
+  - ControllerV4말고 ControllerV1 의 인터페이스로 개발하고 싶을때 해결할 방법이 없다
+  - > adapter 개념으로 해결한다고 한다.
 
 ### 유연한 컨트롤러1 - v5 (95)
 
@@ -297,7 +346,8 @@ application/json 은 스펙상 utf-8 형식을 사용하도록 정의되어 있�
   - 일단 impl해야하는 interface가 약간 인위적임 ( 기존 target이 아니라, 만든것)
   - 어댑티를 어댑터가 가지고 있지는 않음
   - 즉, 원래 target에 안들어 가는 어댑티를 위한 어댑터 개념은 아님
-  - > 근데 얼추 어댑터 느낌이긴함
+  - 핵심은 ModelView class를 어떤 controller든 반환하게 해주는것.
+  - > 근데 얼추 어댑터 느낌이긴함 -> 맞긴한듯
 
 ### 유연한 컨트롤러2 - v5 (103)
 
@@ -305,8 +355,63 @@ application/json 은 스펙상 utf-8 형식을 사용하도록 정의되어 있�
   
 ### 정리 (106)
 
-- annotation을 지원하는 핸들러 어댑터를 만들면 spring-mvc와 같아진다. 
-  - > v5까지 진행한것을 보면 controllerv3,v4를 위한 핸들러 어댑터를 만들었었음. 
+- annotation을 지원하는 핸들러 어댑터를 만들면 spring-mvc와 같아진다.
+  - > v5까지 진행한것을 보면 controllerv3,v4를 위한 핸들러 어댑터를 만들었었음.
 - spring-mvc에서도 어댑터가 매우 중요함
   - ex: `@RequestMapping("/hello)` 어노테이션을 처리하는 어댑터는?
   - RequestMappingHandlerAdapter
+
+## 5. 스프링 MVC - 구조 이해
+
+### 스프링 MVC 전체 구조 (107)
+  
+- 스프링 부트는 DispacherServlet 을 서블릿으로 자동으로 등록하면서 모든 경로( urlPatterns="/" )에 대해서 매핑한다.
+  - 즉 `@WebServlet`안붙여져 있지만 자동으로 등록되어 있음
+- DispatcherServlet의 doDispatch가 핵심
+  - 위에서 만들었던 FrontControllerServlet의 service method에 거의 대응되는 듯
+    - pdf에 정리되어있다.
+
+### 핸들러 매핑과 핸들러 어댑터 (112)
+
+현재는 어노테이션 방식을 쓰지만, 일단 옛날방식으로 controller를 만들어 본다.  
+  
+- 예시에서는 `@Component("/springmvc/old-controller")`로 컨트롤러를 등록함
+  - 실행 절차
+  - spring-boot는 기본적으로 HandlerMapping, HandlerAdapter를 자동으로 등록해준다. ( 꽤 많은 것들을 등록해줌)
+    - > 핸들러 매핑은 Mvc 만든예제처럼, controller와 url의 매핑 느낌
+  - 아래는 등록된 것들 중 핵심적인거 소개
+  - **HandlerMapping**
+    - 0순위 = RequestMappingHandlerMapping : 애노테이션 기반의 컨트롤러인 @RequestMapping에서 사용
+    - 1순위 = BeanNameUrlHandlerMapping : 스프링 빈의 이름으로 핸들러를 찾는다. -> 위 예시처럼 url이름으로 bean이 등록되어 있어야한다.
+      - > 예시는 여기에 걸림
+  - **HandlerAdapter**
+    - 0 = RequestMappingHandlerAdapter : 애노테이션 기반의 컨트롤러인 @RequestMapping에서 사용
+    - 1 = HttpRequestHandlerAdapter : HttpRequestHandler 처리
+    - 2 = SimpleControllerHandlerAdapter : Controller 인터페이스(애노테이션X, 과거에 사용) 처리
+  - pdf에 설명 되어 있음
+
+### 뷰 리졸버 (117)
+
+pdf참조.
+  
+- 뷰 리졸버도 만들어서 bean으로 등록할수 있다.
+  - > thymeleaf 뷰 템플릿의 경우 옛날에는 ThymeleafViewResolver를 bean으로 등록해야 했었다.
+  - > bean 등록은 configure 파일만들어서 `@bean`어노테이션을 메소드에 붙여서 만드는것.
+
+### 스프링 MVC - 시작하기 (120)
+
+- `@Controller` 
+  - 스프링 MVC에서 애노테이션 기반 컨트롤러로 인식
+    - > 즉 RequestMappingHandlerMapping에 의해서 등록되는 핸들러라는 말
+  - 이거 대신 `@RequestMapping`을 class에 붙여도 된다. 이때는 `@Component`를 따로 또 붙여서 bean에 등록되게 해야함
+
+method에 붙는 `@RequestMapping`는 소개는 안해주던데 pdf에 간략히 나오긴 함.. 
+대충 class가 controller로 등록되었으면, url path 처리에 매핑하는 method라고 생각하면될거 같다.   
+> 근데 return은 ModelAndView 여야하나??  param도 HttpServletRequest를 사용하기도 하였다. 아예 param이 없는경우도 있고
+> return에 따라 view리졸버가 달라지는건가? 아님 어댑터 기능인가? (어댑터는 RequestMapping이면 RequestMappingHandlerAdapter를 쓰니까..)
+
+### 스프링 MVC - 컨트롤러 통합 (125)
+
+### 스프링 MVC - 실용적인 방식
+
+### 정리
