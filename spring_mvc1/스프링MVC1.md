@@ -44,7 +44,7 @@
     - [뷰 리졸버 (117)](#뷰-리졸버-117)
     - [스프링 MVC - 시작하기 (120)](#스프링-mvc---시작하기-120)
     - [스프링 MVC - 컨트롤러 통합 (125)](#스프링-mvc---컨트롤러-통합-125)
-    - [스프링 MVC - 실용적인 방식](#스프링-mvc---실용적인-방식)
+    - [스프링 MVC - 실용적인 방식 (127)](#스프링-mvc---실용적인-방식-127)
     - [정리](#정리-2)
 
 
@@ -405,13 +405,18 @@ pdf참조.
     - > 즉 RequestMappingHandlerMapping에 의해서 등록되는 핸들러라는 말
   - 이거 대신 `@RequestMapping`을 class에 붙여도 된다. 이때는 `@Component`를 따로 또 붙여서 bean에 등록되게 해야함
 
-method에 붙는 `@RequestMapping`는 소개는 안해주던데 pdf에 간략히 나오긴 함.. 
+method에 붙는 `@RequestMapping`는 소개는 안해주던데 pdf에 간략히 나오긴 함.. --> 다음 챕터 내용
 대충 class가 controller로 등록되었으면, url path 처리에 매핑하는 method라고 생각하면될거 같다.   
 > 근데 return은 ModelAndView 여야하나??  param도 HttpServletRequest를 사용하기도 하였다. 아예 param이 없는경우도 있고
 > return에 따라 view리졸버가 달라지는건가? 아님 어댑터 기능인가? (어댑터는 RequestMapping이면 RequestMappingHandlerAdapter를 쓰니까..)
 
 ### 스프링 MVC - 컨트롤러 통합 (125)
 
-### 스프링 MVC - 실용적인 방식
+- `@RequestMapping`이 method 단위로 가능하므로, 기존과는 다르게 하나의 class에 모든 내용을 넣을수 있다. 
+  - > 보통 플젝이 이런식인듯
+
+- 아직 ModelAndView 객체를 return해야 하는게 불편 --> 당음 챕터에서 해결
+
+### 스프링 MVC - 실용적인 방식 (127)
 
 ### 정리
