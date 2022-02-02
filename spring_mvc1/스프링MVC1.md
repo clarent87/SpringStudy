@@ -45,8 +45,7 @@
     - [스프링 MVC - 시작하기 (120)](#스프링-mvc---시작하기-120)
     - [스프링 MVC - 컨트롤러 통합 (125)](#스프링-mvc---컨트롤러-통합-125)
     - [스프링 MVC - 실용적인 방식 (127)](#스프링-mvc---실용적인-방식-127)
-    - [정리](#정리-2)
-
+    - [정리(스프링MVC)](#정리스프링mvc)
 
 ## 웹 애플리케이션 이해
 
@@ -400,23 +399,43 @@ pdf참조.
 
 ### 스프링 MVC - 시작하기 (120)
 
-- `@Controller` 
+- `@Controller`
   - 스프링 MVC에서 애노테이션 기반 컨트롤러로 인식
     - > 즉 RequestMappingHandlerMapping에 의해서 등록되는 핸들러라는 말
   - 이거 대신 `@RequestMapping`을 class에 붙여도 된다. 이때는 `@Component`를 따로 또 붙여서 bean에 등록되게 해야함
 
 method에 붙는 `@RequestMapping`는 소개는 안해주던데 pdf에 간략히 나오긴 함.. --> 다음 챕터 내용
-대충 class가 controller로 등록되었으면, url path 처리에 매핑하는 method라고 생각하면될거 같다.   
+대충 class가 controller로 등록되었으면, url path 처리에 매핑하는 method라고 생각하면될거 같다.
 > 근데 return은 ModelAndView 여야하나??  param도 HttpServletRequest를 사용하기도 하였다. 아예 param이 없는경우도 있고
 > return에 따라 view리졸버가 달라지는건가? 아님 어댑터 기능인가? (어댑터는 RequestMapping이면 RequestMappingHandlerAdapter를 쓰니까..)
 
 ### 스프링 MVC - 컨트롤러 통합 (125)
 
-- `@RequestMapping`이 method 단위로 가능하므로, 기존과는 다르게 하나의 class에 모든 내용을 넣을수 있다. 
+- `@RequestMapping`이 method 단위로 가능하므로, 기존과는 다르게 하나의 class에 모든 내용을 넣을수 있다.
   - > 보통 플젝이 이런식인듯
 
 - 아직 ModelAndView 객체를 return해야 하는게 불편 --> 당음 챕터에서 해결
 
 ### 스프링 MVC - 실용적인 방식 (127)
 
-### 정리
+- `@RequestMapping` 를 method에 썻을때는 get/post 구분없이 모두 받을수 있었음. 이게 싫으면
+  - `@RequestMapping(value = "/new-form", method = RequestMethod.GET)` 나 `@GetMapping`를 대신 쓰면된다.
+- `@RequestParam`
+  - method에 파라메터를 HttpServletRequest로 받는거 대신 프론트컨트롤러 v3처럼 값으로 받을수 있음. 그게 위 어노테이션
+  - v4처럼 response대신 Model을 받을수도 있음
+    - > 이건 템플릿 엔진에서 쓰기 위한 값들.. 이라고 보면됨. 프론트컨트롤러에서도 그랬듯.
+  - @RequestParam("username") 은 request.getParameter("username") 와 거의 같은 코드라 생각하면 된다.
+
+- method return시 뷰네임(논리이름)을 직접 반환할수 있다.
+  - v4처럼
+  - `@RequestMapping` 어노테이션 기반 컨트롤러(핸들러)가 매우 유연함
+    - > 아마 어댑터가 잘되어 있어서 그런듯?
+
+http 스펙에서는 get은 사이드 이펙트가 없다고 생각한다. 따라서 get이면안되는 것들은 어노테이션을 달아서 post로만 받게 해야 한다.  
+  
+> 여기 내용이 실무에서 쓰는 방식
+
+### 정리(스프링MVC)
+
+method에서 return하면 viewResolver가 동작하는데. jsp의 경우 내부적으로 jsp (request) forwarding이 되고  
+타임리프의경우는 내부적으로 직접 렌더링이 되어 html이 반환됨
