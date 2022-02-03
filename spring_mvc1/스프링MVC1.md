@@ -73,7 +73,7 @@
     - [상품 등록 처리 - @ModleAttribute (210)](#상품-등록-처리---modleattribute-210)
     - [상품 수정 (214)](#상품-수정-214)
     - [PRG Post / Redirect / Get (217)](#prg-post--redirect--get-217)
-    - [RedirectAttribute](#redirectattribute)
+    - [RedirectAttribute (220)](#redirectattribute-220)
     - [정리 (웹 페이지 만들기)](#정리-웹-페이지-만들기)
 
 ## 웹 애플리케이션 이해
@@ -843,6 +843,8 @@ pdf의 주의사항 참조 필요!
 
 ### 상품 등록 처리 - @ModleAttribute (210)
 
+> 이거 나중에 헷갈릴 수도 있을거 같음. 주의깊게 봐야함 👍
+
 - `@ModelAttribute("item")` 이렇게 쓰면 model에 item을 키로 해당 값을 넣어줌
   - name을 생략하면 변수 type(class)이름의 첫 대문자만 소문자로 바꾼 문자열을 key로 사용함
   - > pdf 또는 코드 참조
@@ -862,10 +864,31 @@ pdf의 주의사항 참조 필요!
 
 **왜 상품등록에는 redirect를 안쓰고 수정에만 썻지??**
   
-위 내용이 다음 절에 나온다.
+위 내용이 다음 절에 나온다. ( 결론은 일부러 설명하려고 문제점을 남긴거 )
 
 ### PRG Post / Redirect / Get (217)
 
-### RedirectAttribute
+- 기존 addItemV4 같은경우 사용자가 post 로 form을 보내주면 처리후 basic/item.html을 렌더링 해서 응답의 body에 넣어서 전달해줌
+  - 사용자의 마지막 상태는 post 메시지 전달하던 상태임 (url도 그렇고, cache된 입력 data도 그렇고..)
+  - 왜냐면 다른 페이지에 간게 아님. 응답을 받았을뿐
+
+- PRG 패턴은 실무에서 많이씀. 즉 Post 메시지를 받았으면 redirect를 넣어서 응답해주는것. 그럼 client는 다시 get으로 redirect page를 받아감
+
+**아직 아래와 같은문제가 있음**  
+  
+- `return "redirect:/basic/items/" + item.getId()` 
+  - redirect에서 `+item.getId()` 처럼 URL에 변수를 더해서 사용하는 것은 **URL 인코딩이 안되기 때문에 위험하다.**
+  - 다음에 설명하는 RedirectAttributes 를 사용하자.
+
+### RedirectAttribute (220)
+
+- 타입리프에서는 `${param.status}`처럼 쿼리 파라메터를 쉽게 핸들링 할수 있는 param변수를 제공 
+  - > 쿼리 파라메터도 Model에 추가되서 오던가?? --> nope
+  - > 즉 뷰리졸버 돌때 서블릿rq랑 response랑 모두 넘어가는 형태 같음 --> 맞는거 같음
+  - > 프론트 컨트롤러 만들때 보면 view rendering할때 req, res 모두 넘김 ( 짜피 spring-mvc도 서블릿이용한 거일테니..)
+  - https://dololak.tistory.com/502
+    - requestDispatcher가 핵심임
+
+쨋든 프론트핸들러 만들던 내용이 핵심이네 👍
 
 ### 정리 (웹 페이지 만들기)

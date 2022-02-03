@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -28,6 +29,8 @@ public class BasicItemController {
     public String item(@PathVariable Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
+        // 어찌 되었던 쿼리 param이 넘어가긴함..
+        // 즉 뷰리졸버 돌때 서블릿rq랑 response랑 모두 넘어가는 형태 같음 --> 맞는거 같음
         return "basic/item";
     }
 
@@ -79,10 +82,36 @@ public class BasicItemController {
      * @ModelAttribute 자체 생략 가능
      * model.addAttribute(item) 자동 추가
      * */
-    @PostMapping("/add")
+    // @PostMapping("/add")
     public String addItemV4(Item item) {
         itemRepository.save(item);
         return "basic/item";
+    }
+
+    /**
+     * PRG - Post/Redirect/Get
+     */
+    // @PostMapping("/add")
+    public String addItemV5(Item item) {
+        itemRepository.save(item);
+        // item은 모델에도 세팅은 되겠지?
+        return "redirect:/basic/items/" + item.getId();
+    }
+
+    /**
+     * RedirectAttributes
+     */
+    @PostMapping("/add")
+    public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
+        Item savedItem = itemRepository.save(item);
+
+        // 모델에 저장하듯, 일단 저장한 내용을 redirectAttributes에 저장
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+
+        // redirectAttributes에 저장된 내용은 아래 string에서 치환됨 (itemId만 치환됨)
+        // 나머지 값은 아래 url에서 쿼리 파라메터로 붙어서 전달된다
+        return "redirect:/basic/items/{itemId}";
     }
 
     // form 확인할때 씀
