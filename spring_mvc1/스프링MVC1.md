@@ -62,6 +62,19 @@
     - [HTTP 메시지  (174)](#http-메시지--174)
     - [요청 매핑 핸들어 어댑터  (178)](#요청-매핑-핸들어-어댑터--178)
     - [정리(스프링MVC 기본기능)](#정리스프링mvc-기본기능)
+  - [7. 스프링 MVC - 웹 페이지 만들기](#7-스프링-mvc---웹-페이지-만들기)
+    - [프로젝트 생성(웹 페이지 만들기)](#프로젝트-생성웹-페이지-만들기)
+    - [요구사항 분석 (185)](#요구사항-분석-185)
+    - [상품 도메인 개발 (189)](#상품-도메인-개발-189)
+    - [상품 서비스 HTML (193)](#상품-서비스-html-193)
+    - [상품 목록 - 타임리프 (200)](#상품-목록---타임리프-200)
+    - [상품 상세 (205)](#상품-상세-205)
+    - [상품 등록 폼 (208)](#상품-등록-폼-208)
+    - [상품 등록 처리 - @ModleAttribute (210)](#상품-등록-처리---modleattribute-210)
+    - [상품 수정 (214)](#상품-수정-214)
+    - [PRG Post / Redirect / Get (217)](#prg-post--redirect--get-217)
+    - [RedirectAttribute](#redirectattribute)
+    - [정리 (웹 페이지 만들기)](#정리-웹-페이지-만들기)
 
 ## 웹 애플리케이션 이해
 
@@ -692,7 +705,7 @@ pdf의 주의사항 참조 필요!
     - 즉, 원치 않는 동작
   - **ResponseEntity** 붙는것들은 문제 없음
     - 이건 직접 body에 값을 채우는거니까
-    - > ~~아마 컨버터가 동작하진 않을듯~~ 틀림 HttpEntity 류는 컨버터 동작함. 
+    - > ~~아마 컨버터가 동작하진 않을듯~~ 틀림 HttpEntity 류는 컨버터 동작함.
 
 - RestController
   - Controller, ResponseBody 를 class level에 붙인거랑 동일한 결과를 준다.
@@ -709,7 +722,7 @@ pdf의 주의사항 참조 필요!
 - @ResponseBody 원리 개요
   - HTTP의 BODY에 문자 내용을 직접 반환
     - > 서블릿에서는 writer를 만들어서 값을 썻었음
-  -  viewResolver 대신에 HttpMessageConverter 가 동작
+  - viewResolver 대신에 HttpMessageConverter 가 동작
   - 기본 문자처리: StringHttpMessageConverter
   - **기본 객체처리: MappingJackson2HttpMessageConverter**
   - byte 처리 등등 기타 여러 HttpMessageConverter가 기본으로 등록되어 있음
@@ -717,7 +730,6 @@ pdf의 주의사항 참조 필요!
 - **스프링 MVC는 다음의 경우에 HTTP 메시지 컨버터를 적용한다.**
   - HTTP 요청: @RequestBody , **HttpEntity**(RequestEntity) ,
   - HTTP 응답: @ResponseBody , **HttpEntity**(ResponseEntity)
-
 
 - HTTP 메시지 컨버터는 HTTP 요청, HTTP 응답 둘 다 사용된다
   - 그래서 read, write method가 interface에 정의 됨
@@ -741,10 +753,10 @@ pdf의 주의사항 참조 필요!
 
 ### 요청 매핑 핸들어 어댑터  (178)
 
-- @RequestMapping 기반의 컨트롤러는 RequestMappingHandlerAdapter 가 처리한다. 
+- @RequestMapping 기반의 컨트롤러는 RequestMappingHandlerAdapter 가 처리한다.
   - 해당 어댑터는 아래 두개를 사용해서 핸들러(컨트롤러)를 호출
     - ArgumentResolver
-      - @RequestBody, HttpServletRequest, Model, RequestParam 등을 처리해서 필요한 object를 만들어서 준다. 
+      - @RequestBody, HttpServletRequest, Model, RequestParam 등을 처리해서 필요한 object를 만들어서 준다.
       - 이걸 핸들러로 넘김
       - 주의 : 메시지 컨버터는 RequestBody, HttpEntity 등일때 동작. 컨버터의 read호출
     - ReturnValueHandler
@@ -759,7 +771,7 @@ pdf의 주의사항 참조 필요!
   - 이거 ArgumentResolver,ReturnValueHandler 두개의 기능이 하나로 합쳐저 있음
 
 - WebMvcConfigurer
-  - 기능확장은 WebMvcConfigurer를 상속 받아서 스프링 빈으로 등록하면된다. 
+  - 기능확장은 WebMvcConfigurer를 상속 받아서 스프링 빈으로 등록하면된다.
   - > addArgumentResolvers 같은 method가 있는것으로 봐서 ArgumentResolver 같은거 만들어서 addArgumentResolvers로 오는 list에 추가해주면 되는거 같음
 
 ### 정리(스프링MVC 기본기능)
@@ -772,10 +784,88 @@ pdf의 주의사항 참조 필요!
 - json 보낼떄 : **accept, produces, class 를 검토**
 
 - @ModelAttribute 생략시 내용 쫌 이상함
-  - argumentResolver로 지정해둔 type외는 전부 ModelAttribute 라고 했는데. 
+  - argumentResolver로 지정해둔 type외는 전부 ModelAttribute 라고 했는데.
   - ModelAttribute도 argumentResolver가 핸들링하는거 같은데.. 그럼 message converter랑 연관있다고 해야 했던거 아닐까?
 
 - message converter
   - http body 처리를 json으로 해주는 컨버터
   - string으로 해주는 컨버터
   - bytearray로 해주는 컨버터
+
+## 7. 스프링 MVC - 웹 페이지 만들기
+
+### 프로젝트 생성(웹 페이지 만들기)
+
+### 요구사항 분석 (185)
+
+### 상품 도메인 개발 (189)
+
+- 멀티 쓰레드 관련 주의사항 중요 (코드에 적음)
+  - ConcurrentHashMap, AtomicLong을 사용해야한다
+- method 개발시 정석 방법 중요
+  - DTO를 써야하는 case
+  - 중복 vs 명확성. 항상 명확성이 나음
+    - > 코드에서 보면 DTO를 만들면 Item class랑 중복이 쫌 생김. 근데 그래도 명확성이 좋기 때문에 이게 정석적으로는 낫다고 함
+
+- 테스트의 package 경로를 src랑 맞춰주는 이유가 뭐였지?
+  - 아마 import때문인거 같긴한데.. 같은 package여야 사용가능하거나. 뭐 그런...등등
+  - > integration test 짤때는 그럼 어떻게? test package 경로를 잡지?
+
+### 상품 서비스 HTML (193)
+
+- css 파일 넣고. url로 접근 해봤을때 안보이면 intellij의 out 폴더 지우고 해보면 잘된다.
+- 정적 리소스는 get으로만 받을수 있다.
+  - post로 진행하면 spring에서 막음
+
+### 상품 목록 - 타임리프 (200)
+
+- spring에서 contructor 하나만 있을때 param으로 빈등록 해주던거.. 다시 확인 필요
+  - param에 빈만 들어가야 하는지? -> 아마 그래야 할거 같긴한데.. 다른 값을 bean 등록때 넣어 줄수가 없으니
+
+- templates 폴더는 view template을 위한것
+  - static은 정적배포
+  - method에서 return으로 view path주면 당연히 templates 폴더를 root로 뒤질듯
+  
+이번 절은 타임리프 문법 소개임  
+  
+### 상품 상세 (205)
+
+- 상품수정을 위한 url은 edit라고 해주던데..
+  - 이거 그냥 http put같은거를 이용하게 할수는 없나?
+  - `location.href` 이거는 항상 get일까? -> 타임리프로는 안되나봄.
+  - 아마 이건 rest api 형태는 아니겠지?
+    - 원래 itme 수정은 put으로 하는거 같은데 여기서는 url edit을 따로 만들었으니..
+
+### 상품 등록 폼 (208)
+
+- 같은 url을 get/post에 따라 기능을 나누어 개발하는게 좋다.
+- th:action에서 값을 안넣으면 현재 url로 post 전송이 된다. ( form에 post 세팅시 )
+
+### 상품 등록 처리 - @ModleAttribute (210)
+
+- `@ModelAttribute("item")` 이렇게 쓰면 model에 item을 키로 해당 값을 넣어줌
+  - name을 생략하면 변수 type(class)이름의 첫 대문자만 소문자로 바꾼 문자열을 key로 사용함
+  - > pdf 또는 코드 참조
+
+- @ModelAttribute를 생략하는 버전의 코드도 있는데 이렇게 까지 쓰는건 회의적 ( 그래도 쓸때도 있고 아닐때도 있다고 함)
+
+### 상품 수정 (214)
+
+- redirect 세팅해서 응답을 보내면 받는측은 302 상태코드를 받음 ( 아마 spring이 세팅해서 보낸듯, 상태코드는.. )
+- redirect관련 자세한 내용은. http 강좌에 있다고함
+  - > 이거 한번 들어보는것도 좋겠는데..
+
+- HTML Form 전송은 PUT, PATCH를 지원하지 않는다. GET, POST만 사용할 수 있다.
+  - PUT, PATCH는 HTTP API(rest api) 에 사용   
+  - HTTP POST로 Form 요청할 때 특정 히든 필드에 값을 세팅하면, spring은 해당 form처리를 PUT, PATCH 매핑을 통해 하기도함 
+    - 근데 어쨋든 client에서  HTTP 요청은 POST로 진행
+
+**왜 상품등록에는 redirect를 안쓰고 수정에만 썻지??**
+  
+위 내용이 다음 절에 나온다.
+
+### PRG Post / Redirect / Get (217)
+
+### RedirectAttribute
+
+### 정리 (웹 페이지 만들기)
