@@ -266,6 +266,8 @@ http 요청 방식 설명. get, post, HTTP message body에 데이터를 직접 �
 
 - pragma 세팅은 내 책 내용이랑은 쫌 다른듯.. 가능하면 http 강의 구매후 들어보는것도 좋겠음
 
+> view resolver 될때는 HttpServletResponse가 사실 별 필요가 없는거 같음. 
+
 ### HTTP 응답 데이터 - 단순 텍스터,HTML (34)
 
 - 1:56
@@ -318,9 +320,12 @@ application/json 은 스펙상 utf-8 형식을 사용하도록 정의되어 있�
   - 이 경로안에 JSP가 있으면 외부에서 직접 JSP를 호출할 수 없다. 우리가 기대하는 것은 항상 컨트롤러를 통해서 JSP를 호출하는 것이다.
   - 이거 WAS 서버 룰임. 즉 static resource요청하듯 client가 요청할수 없다는것.
 
+- Model은 HttpServletRequest 객체를 사용한다. request는 내부에 데이터 저장소를 가지고 있는데,
+  - request.setAttribute() , request.getAttribute() 를 사용하면 데이터를 보관하고, 조회할 수 있다.
+
 ### MVC 패턴 - 한계 (65)
 
-- jsp를 통해서 html page를 반환하기 때문에 HttpServletResponse를 쓰지 않고 있음
+- 👍👍 **jsp를 통해서 html page를 반환하기 때문에 HttpServletResponse를 쓰지 않고 있음** 
 
 - 정리하면 공통 처리가 어렵다는 문제가 있다.
 
