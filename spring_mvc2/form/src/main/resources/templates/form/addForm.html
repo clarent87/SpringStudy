@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css"
+          rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <style>
         .container {
             max-width: 560px;
@@ -18,19 +18,64 @@
         <h2>상품 등록 폼</h2>
     </div>
 
-    <form action="item.html" th:action th:object="${item}" method="post">
+    <form action="item.html" method="post" th:action th:object="${item}">
         <div>
             <label for="itemName">상품명</label>
-            <input type="text" id="itemName" th:field="*{itemName}" class="form-control" placeholder="이름을 입력하세요">
+            <input class="form-control" id="itemName" placeholder="이름을 입력하세요" th:field="*{itemName}" type="text">
         </div>
         <div>
             <label for="price">가격</label>
-            <input type="text" id="price" th:field="*{price}" class="form-control" placeholder="가격을 입력하세요">
+            <input class="form-control" id="price" placeholder="가격을 입력하세요" th:field="*{price}" type="text">
         </div>
         <div>
             <label for="quantity">수량</label>
-            <input type="text" id="quantity" th:field="*{quantity}" class="form-control" placeholder="수량을 입력하세요">
+            <input class="form-control" id="quantity" placeholder="수량을 입력하세요" th:field="*{quantity}" type="text">
         </div>
+
+        <hr class="my-4">
+
+        <!-- single checkbox -->
+        <div>판매 여부</div>
+        <div>
+            <div class="form-check">
+                <input class="form-check-input" id="open" th:field="*{open}" type="checkbox">
+<!--                <input type="hidden" name="_open" value="on"/> &lt;!&ndash; 히든 필드 추가 &ndash;&gt; -->
+                <label class="form-check-label" for="open">판매 오픈</label>
+            </div>
+        </div>
+
+        <!-- multi checkbox -->
+        <div>
+            <div>등록 지역</div>
+            <div th:each="region : ${regions}" class="form-check form-check-inline">
+<!--                "*{regions}"는 item에 있는 거. 일부러 empty객체 만들어서 넘긴 그개념임-->
+                <input type="checkbox" th:field="*{regions}" th:value="${region.key}" class="form-check-input">
+                <label th:for="${#ids.prev('regions')}"
+                       th:text="${region.value}" class="form-check-label">서울</label>
+            </div>
+        </div>
+
+        <!-- radio button -->
+        <div>
+            <div>상품 종류</div>
+            <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
+                <input type="radio" th:field="*{itemType}" th:value="${type.name()}" class="form-check-input">
+                <label th:for="${#ids.prev('itemType')}" th:text="${type.description}" class="form-check-label">
+                    BOOK
+                </label>
+            </div>
+        </div>
+
+        <!-- SELECT -->
+        <div>
+            <div>배송 방식</div>
+            <select th:field="*{deliveryCode}" class="form-select">
+                <option value="">==배송 방식 선택==</option>
+                <option th:each="deliveryCode : ${deliveryCodes}" th:value="${deliveryCode.code}"
+                        th:text="${deliveryCode.displayName}">FAST</option>
+            </select>
+        </div>
+
 
         <hr class="my-4">
 
@@ -42,7 +87,8 @@
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='items.html'"
                         th:onclick="|location.href='@{/form/items}'|"
-                        type="button">취소</button>
+                        type="button">취소
+                </button>
             </div>
         </div>
 
