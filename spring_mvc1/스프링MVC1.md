@@ -593,6 +593,7 @@ pdf의 주의사항 참조 필요!
   - **원리는, request param에 해당하는 프로퍼티가 있는지 변수 type class에서 찾고 있으면 넣어준다**.
     - 즉 class의 변수 이름과 request param의 이름이 같아야함
     - > 프로퍼티는 python에서 나왔던거랑 같음.. get,setter있는 변수.
+  -  model.addAttribute(helloData) 코드도 함께 자동 적용됨, 뒤에 model을 설명할 때자세히 설명
 
 - 바인딩 오류
   - 이건 validation에서 나온다고 함
@@ -851,7 +852,7 @@ pdf의 주의사항 참조 필요!
 
 > 이거 나중에 헷갈릴 수도 있을거 같음. 주의깊게 봐야함 👍
 
-- `@ModelAttribute("item")` 이렇게 쓰면 model에 item을 키로 해당 값을 넣어줌
+- `@ModelAttribute("item")` 이렇게 쓰면 model에 item을 키로 해당 값을 넣어줌 👍👍
   - name을 생략하면 변수 type(class)이름의 첫 대문자만 소문자로 바꾼 문자열을 key로 사용함
   - > pdf 또는 코드 참조
 
