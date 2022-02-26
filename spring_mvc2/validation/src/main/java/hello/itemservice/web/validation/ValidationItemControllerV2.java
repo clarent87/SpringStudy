@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -163,6 +164,16 @@ public class ValidationItemControllerV2 {
         log.info("objectName={}", bindingResult.getObjectName());
         log.info("target={}", bindingResult.getTarget());
 
+        // 보통 아래처럼 바인딩 에러는 앞서서 처리한다. (오류 코드와 메시지 처리 6)
+        // 근데 뭐 알아서 해도 됨
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "validation/v2/addForm";
+        }
+
+        // 아래 첫번쨰 if문이랑 같음. 이렇게 spring util을 쓰는것도 가능한데, 단순한 것들만 제공해줌. 공백일떄 등등..ㄴㄴ
+        // ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "required");
+
         if (!StringUtils.hasText(item.getItemName())) {
             // bindingResult가 target object를 이미 알고 있어서 가능
             // 순서 중요하다고 했었는데, 순서가 있기 때문에 spring이 무언가 알고 있다는것
@@ -186,7 +197,7 @@ public class ValidationItemControllerV2 {
         }
 
         if (bindingResult.hasErrors()) {
-            log.info("errors={} ", bindingResult);
+            log.info("errors={} ", bindingResult); // 에러 내용 전부 출력됨
             return "validation/v2/addForm";
         }
 
