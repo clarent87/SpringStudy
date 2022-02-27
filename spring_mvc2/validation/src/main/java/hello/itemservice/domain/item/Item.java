@@ -13,18 +13,19 @@ import javax.validation.constraints.NotNull;
 //@ScriptAssert(lang = "javascript", script = "_this.price * _this.quantity >= 10000", message = "10000원이 넘으면 안된다.")
 public class Item {
 
-    @NotNull(groups = UpdateCheck.class)
+    // 어노테이션은 다 막았음. 폼 별 별도객체를 만들어서 에러 처리하기 위함
+//    @NotNull(groups = UpdateCheck.class)
     private Long id;
 
-    @NotBlank(groups = {SaveCheck.class, UpdateCheck.class})
+//    @NotBlank(groups = {SaveCheck.class, UpdateCheck.class})
     private String itemName;
 
-    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
-    @Range(min=1000,max=10000)
+//    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+//    @Range(min=1000,max=10000)
     private Integer price;
 
-    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
-    @Max(value = 9999, groups = {SaveCheck.class})
+//    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+//    @Max(value = 9999, groups = {SaveCheck.class})
     private Integer quantity;
 
     public Item() {
