@@ -92,7 +92,7 @@ public class ValidationItemControllerV2 {
         //검증에 실패하면 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
             log.info("errors={} ", bindingResult);
-            // bindingResult는 자동으로 모델에 들어가서 뷰로 넘어감
+            // bindingResult는 자동으로 모델에 들어가서 뷰로 넘어감!!!
             return "validation/v2/addForm";
         }
 

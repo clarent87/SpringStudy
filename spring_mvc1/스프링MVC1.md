@@ -591,7 +591,7 @@ pdf의 주의사항 참조 필요!
 - @ModelAttribute
   - 이거 request param을 객체에 직접 매핑해줌
   - **원리는, request param에 해당하는 프로퍼티가 있는지 변수 type class에서 찾고 있으면 넣어준다**.
-    - 즉 class의 변수 이름과 request param의 이름이 같아야함
+    - 👍 즉 class의 변수 이름과 request param의 이름이 같아야함
     - > 프로퍼티는 python에서 나왔던거랑 같음.. get,setter있는 변수.
   -  model.addAttribute(helloData) 코드도 함께 자동 적용됨, 뒤에 model을 설명할 때자세히 설명
 
