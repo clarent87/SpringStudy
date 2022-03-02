@@ -424,6 +424,10 @@ application/json 은 스펙상 utf-8 형식을 사용하도록 정의되어 있�
     - 2 = SimpleControllerHandlerAdapter : Controller 인터페이스(애노테이션X, 과거에 사용) 처리
   - pdf에 설명 되어 있음
 
+
+적확한 내용은 https://mangkyu.tistory.com/180  에 있다.
+
+
 ### 뷰 리졸버 (117)
 
 pdf참조.

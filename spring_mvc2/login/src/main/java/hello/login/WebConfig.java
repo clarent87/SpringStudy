@@ -2,18 +2,31 @@ package hello.login;
 
 import hello.login.web.filter.LogFilter;
 import hello.login.web.filter.LoginCheckFilter;
+import hello.login.web.interceptor.LogInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
 
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer { // WebMvcConfigurer는 인터셉터 등록 때문에 impl하는거
+
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LogInterceptor())
+                .order(1)
+                .addPathPatterns("/**") // 패턴이 필터의 패턴이랑은 전혀 다르다. pdf에 정리함 ( 일단 모든 uri에 인터셉터 적용 )
+                .excludePathPatterns("/css/**", "/*.ico", "/error"); // 여기에는 인터셉터 적용이 안됨 ( 옆 uri접근은 로그를 남기지 않는다. )
+    }
 
     // 스프링 부트에서 필터 등록 방법
     // FilterRegistrationBean이거 제네릭인데 그냥 쓰나 보네
-    @Bean
+    // 로그 인터셉터 개발후 bean은 주석 처리함
+//    @Bean
     public FilterRegistrationBean logFilter() {
 
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>(); // FilterRegistrationBean 객체 준비
