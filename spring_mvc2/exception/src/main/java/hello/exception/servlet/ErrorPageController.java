@@ -41,7 +41,7 @@ public class ErrorPageController {
         printErrorInfo(request);
         return "error-page/500";
     }
-    
+
     private void printErrorInfo(HttpServletRequest request) {
         log.info("ERROR_EXCEPTION: {}", request.getAttribute(ERROR_EXCEPTION));
         log.info("ERROR_EXCEPTION_TYPE: {}", request.getAttribute(ERROR_EXCEPTION_TYPE));
@@ -49,6 +49,6 @@ public class ErrorPageController {
         log.info("ERROR_REQUEST_URI: {}", request.getAttribute(ERROR_REQUEST_URI));
         log.info("ERROR_SERVLET_NAME: {}", request.getAttribute(ERROR_SERVLET_NAME));
         log.info("ERROR_STATUS_CODE: {}", request.getAttribute(ERROR_STATUS_CODE));
-        log.info("dispatchType={}", request.getDispatcherType()); // 이거 중요 (뒤에서 설명한다고 함)
+        log.info("dispatchType={}", request.getDispatcherType()); // 이거 중요 (뒤에서 설명한다고 함) -> 설명함.
     }
 }
