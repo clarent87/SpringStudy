@@ -17,7 +17,12 @@ public class ApiExceptionController {
         if (id.equals("ex")) {
             throw new RuntimeException("잘못된 사용자"); // 그냥 이렇게 떤지면 html 이 반환됨 ( 앞서 만든 500.html 페이지.. )
         }
-
+        if (id.equals("bad")) {
+            throw new IllegalArgumentException("잘못된 입력 값"); // 사용자가 잘못 id를 입력했을 경우에 대한 요구사항
+        }
+//        if (id.equals("user-ex")) {
+//            throw new UserException("사용자 오류");
+//        }
 
         return new MemberDto(id, "hello " + id);
     }
