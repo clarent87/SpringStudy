@@ -18,7 +18,7 @@ import java.util.Map;
 @Controller
 public class ErrorPageController {
 
-    // RequestDispatcher 상수로 정의되어 있음
+    // RequestDispatcher interface에 상수로 정의되어 있음 ( 그래서 사실 아래처럼 따로 정의할 필요는 없음)
     // WAS가 추가해주는 오류 정보 확인을 위해 사용하는 상수
     public static final String ERROR_EXCEPTION = "javax.servlet.error.exception";
     public static final String ERROR_EXCEPTION_TYPE = "javax.servlet.error.exception_type";
@@ -40,6 +40,23 @@ public class ErrorPageController {
         log.info("errorPage 500");
         printErrorInfo(request);
         return "error-page/500";
+    }
+
+    // produces : request의 accept가 json이면 이게 호출됨 ( mvc1 내용 )
+    @RequestMapping(value = "/error-page/500", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> errorPage500Api(
+            HttpServletRequest request, HttpServletResponse response) {
+
+        log.info("API errorPage 500");
+
+        // map return 하면 json으로 변환됨 --> 이 내용 mvc1에 있던가?
+        Map<String, Object> result = new HashMap<>(); // field 추가되는 순서 보장 안됨
+        Exception ex = (Exception) request.getAttribute(ERROR_EXCEPTION); // WAS가 넣어주는 값.
+        result.put("status", request.getAttribute(ERROR_STATUS_CODE));
+        result.put("message", ex.getMessage());
+
+        Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        return new ResponseEntity<>(result, HttpStatus.valueOf(statusCode)); // 상태코드 반환
     }
 
     private void printErrorInfo(HttpServletRequest request) {
