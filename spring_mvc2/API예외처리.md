@@ -12,15 +12,29 @@
 
 ## 스프링 부트 기본 오류 처리 (5)
 
-여기서는 앞서 배운 스프링 부트 BasicErrorController를 이용해봄
+여기서는 앞서 배운 스프링 부트 BasicErrorController를 이용해봄  
+이미 json으로 return하는 컨트롤러가 구현되어 있음 ( request의 accept에 따라 html인경우 html 버전이 동작, 아닌경우는 json 버전이 동작)
+  
+앞선 강좌의 스프링 부트 BasicErrorController를 이용했던거 처럼. 아래 properties 를 제공
 
-## HandlerExceptionResolver 시작
+```
+server.error.include-binding-errors=always 
+server.error.include-exception=true 
+server.error.include-message=always 
+server.error.include-stacktrace=always
+```
+  
+- BasicErrorController(AbstractErrorController) 의 getErrorAttributes를 override하면 반환되는 json 형태를 변경할수도 있다. 
+  - > 안쓴다함. 더 좋은거 있어서. 
+  - > 더 좋은거 -> @ExceptionHandler  이게 끝판왕. 이걸 이해하기 위해서 아래 강좌를 들어야함
+
+## HandlerExceptionResolver 시작 (7)
 
 ## HandlerExceptionResolver 활용
 
-## 스프링이 제공하는 ExceprionResolver1
+## 스프링이 제공하는 ExceptionResolver1
 
-## 스프링이 제공하는 ExceprionResolver2
+## 스프링이 제공하는 ExceptionResolver2
 
 ## @ExceptionHandler
 

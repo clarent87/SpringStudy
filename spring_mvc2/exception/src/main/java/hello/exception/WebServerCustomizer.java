@@ -6,7 +6,7 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 // 서블릿 컨테이너가 하라는(제공하는) 대로 WebServerFactoryCustomizer<ConfigurableWebServerFactory> 를 이용함
 public class WebServerCustomizer implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
