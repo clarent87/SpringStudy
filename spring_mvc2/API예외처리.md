@@ -222,4 +222,11 @@ AOP랑 비슷.. Advice란 이름도 AOP에서 온것
   
 실무에서는 exceptionHandler + advice 조합해서 잘 쓰는게 중요.  유용하다
 
+## 질문
+
+- @ResponseStatus는 내부적으로 response.sendError(statusCode, resolvedReason); 를 통해 response 내부에 오류가 발생했었음을 상태로 저장하게 됩니다.(이전 강의에서 알려주셨던 내용)
+이후 이를 WAS가 인지하게 되어 기본 에러 페이지인 "/error"로 재요청을 보내야 하는것 아닌가요?
+  - @ResponseStatus를 예외에서 사용할 때는 말씀드린 내용처럼 동작하고, 컨트롤러나 @ExceptionHandler에서 사용할 때는 단순히 상태코드를 변경하는 방식으로 동작합니다.
+
+
 ## 정리
