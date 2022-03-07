@@ -212,6 +212,14 @@ public String ex(Exception e) { // AException, BException 의 부모 class 넣�
   - RestControllerAdvice나 ControllerAdvice나 같은것. RestControllerAdvice는 responseBody가 붙은게 차이임
   - 원래 대상 지정해서 쓸수 있는데, 대상 지정 안하면 모든 컨트롤러에 다걸림
 
-AOP랑 비슷.. Advice란 이름도 AOP에서 온것
+AOP랑 비슷.. Advice란 이름도 AOP에서 온것  
+
+- 대상 컨트롤러 지정
+  - Pdf에 잘나옴 3종류 있음. 
+  - 보통 `@ControllerAdvice("org.example.controllers")` 처럼 package 정도는 지정해줌
+    - 즉 해당 패키지 아래에 다걸림
+
+  
+실무에서는 exceptionHandler + advice 조합해서 잘 쓰는게 중요.  유용하다
 
 ## 정리
