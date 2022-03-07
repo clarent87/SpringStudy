@@ -80,7 +80,7 @@ server.error.include-stacktrace=always
 
 - API 예외에 HandlerExceptionResolver를 어떻게 활용 할수 있는지 나옴
 - 핵심
-  - 앞선 강좌에서는 예외가 was까지 갔다가 다시 컨트롤러로 올라가서 처리되었는데 이걸 해결한것
+  - **앞선 강좌에서는 예외가 was까지 갔다가 다시 컨트롤러로 올라가서 처리되었는데 이걸 해결한것**
 
 - 예외 로그
   - > 역시 서블릿 컨테이너에서 하나찍힌다고 언급함. ( 앞서 내가 로그 두개씩 나올때 작성한 내용과 일지..)
@@ -129,12 +129,25 @@ HandlerExceptionResolver 는 예외를 처리해주는거지 html/json case를 �
   
 > 보니까 @RestController 쓰고 status는 항상 ok찍어두고  + 나머지 예외는 위 처럼 처리하면될듯.??  
 > 근데.. 중요한게 json format을 제어할수가 없네. api 마다 다를텐데.. 물론 BasicErrorController인경우도 상속해서 protected mehtod 오버라이드 하면되긴 하다고 했음..  
-> 근데 api마다 예외 json 형태가 다르단건 말이 안되는거 같아서.. 위 아이디어로 개발하는것도 나쁘진 않아보임  
+> 근데 api마다 예외 json 형태가 다르단건 말이 안되는거 같아서..(말이되는 케이스임. @ExceptionHandler  첫줄에 나옴)
+> 위 아이디어로 개발하는것도 나쁘진 않아보임  
 > 근데 비동기에서는 어찌 처리되려나.. 상관없나?
 
 ## 스프링이 제공하는 ExceptionResolver2 (20)
 
-## @ExceptionHandler
+- DefaultHandlerExceptionResolver
+  - 스프링 내부에서 발생하는 예외 해결 역할
+  - 대표적으로 파라미터 바인딩 시점에 타입이 맞지 않으면 내부에서 TypeMismatchException 이 발생하는데, 
+  - 이 경우 예외가 발생했기 때문에 그냥 두면 서블릿 컨테이너까지 오류가 올라가고, 결과적으로
+    - > 서블릿 컨테이너? WAS 말하는 건가? 대충 그런 의미.
+  - 500 오류가 발생한다
+  - > DefaultHandlerExceptionResolver 가보면 spring 내부에서 터지는 예외들을 처리하는게 if/else로 잘 구분되어 있음
+  - > 나중에 참조하면 좋음 ( do~ method에 있음)
+
+앞서 예외가 was까지 갔다가 다시올라오는거 막으려고, ( 물론 sendError 그냥 보내서 다시 컨트롤러로 올라오게도 가능)
+직접 ExceptionResolver를 만들어서 예외를 핸들링 해보려는 작업들을 했는데, 매우 불편  
+
+## @ExceptionHandler (22)
 
 ## @ControllerAdvice
 
