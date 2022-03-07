@@ -49,8 +49,8 @@ server.error.include-stacktrace=always
     - was에서는 sendError에 세팅된 에러를 보고 처리 시작
   - pdf에 아주잘 설명되어 있음
 
-- **반환값에 따른 동작 방식**
-  - 빈 ModelAndView : 뷰 렌더링 없이 정상 프름으로 서블릿이 리턴
+- **반환값에 따른 동작 방식** --> 이거 매우 중요!!
+  - 빈 ModelAndView : 뷰 렌더링 없이 was까지 진행함. ( 보통은 예외를 수정해서 전달하는 목적인듯) --> 코드,PDF 참조
     - > 예제에서는 500 error 나가는거 막으려고 여기서 request.sendError로 400에러로 치환해서 내보냄
   - ModelAndView 지정 : html 페이지 렌더링함. 즉 오류 페이지 렌더링 같은거 가능
     - > 앞선 강좌의 예외 flow ( 컨트롤러 -> 서블릿 -> was -> 다시 올라옴) 의 경우는 컨트롤러의 return이 view이지만 throw로 예러가 나갔을때 case
@@ -86,9 +86,53 @@ server.error.include-stacktrace=always
   - > 역시 서블릿 컨테이너에서 하나찍힌다고 언급함. ( 앞서 내가 로그 두개씩 나올때 작성한 내용과 일지..)
   - > 해당 로그는 ~main 이라는 문구가 있는듯
 
-## 스프링이 제공하는 ExceptionResolver1
+HandlerExceptionResolver 는 예외를 처리해주는거지 html/json case를 자동으로 해결해 주는것은아님!
 
-## 스프링이 제공하는 ExceptionResolver2
+
+## 스프링이 제공하는 ExceptionResolver1 (17)
+
+- 스프링 부트가 기본으로 제공하는 ExceptionResolver
+  - HandlerExceptionResolverComposite 에 다음 순서로 등록
+  - 1. ExceptionHandlerExceptionResolver --> @ExceptionHandler 장에서 설명
+  - 2. ResponseStatusExceptionResolver --> 여기서 강의함
+  - 3. DefaultHandlerExceptionResolver 처리 우선 순위가 가장 낮다 --> 다음 절
+  - > 순서가 중요. 1이 처리가 안되면 null을 반환하는데, 그러면 다음 resolver가 동작
+  - > 1이 처리되면 다음은 넘어가지 않는듯. ( 그래서 순서가 중요!)
+
+- ResponseStatusExceptionResolver
+  - 다음 두가지를 처리
+  - @ResponseStatus 가 달려있는 예외
+  - ResponseStatusException 예외
+  - > ResponseStatusExceptionResolver에 가보이 messageSource라는거 쓰고 있네 👍
+
+- ResponseStatusExceptionResolver 원리
+  - MyHandlerExceptionResolver와 동일.. 
+  - 예외에서  @ResponseStatus 어노테이션이 있는지 보고, 있으면 status랑 메시지를 가져와서 sendError에 세팅
+  - new ModelAndView()를 반환.
+  - > null return이 아니기 때문에 다음 exceptionHandler로 넘어가지는 않음
+
+- `@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "error.bad")` 를 보면 messageSource에서 값을 찾는 기능도 제공
+  - "error.bad" 가 해당 기능이다. 근데 messages.properties에서 해당 값을 못찾으면 그냥 error.bad가 출력됨
+  - > BasicErrorController에 의해 출력되는 json format에 보면 status랑 message 찍히는 부분이 있음  
+  - > 거기에 위 상태 코드랑, reason(메시지) 가 찍히는것  
+    - ResponseStatusExceptionResolver의
+    - applyStatusAndReason method 보면 앎. messageSoucre에서 getMessage 로 reason string을 key로 값 가져옴..
+  - > 이때 당연히 server.error.include-message=always  세팅이 있어야 값이 찍힘
+  - 당연 이 어노테이션은 내가 만든 코드에만 붙일수 있음. 시스템 코드나 라이브러리 코드 (-> 전부 빌드된 형태..)인 경우
+    - 에는 붙일수 없어서.. ResponseStatusException 를 제공해준다. 
+  - 그리고 특정조건에 따라 동적으로 값을 변하게 하기도 어려움.. 
+    - 그럴때도 ResponseStatusException를 사용
+
+- ResponseStatusException
+  - `throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());`
+  - 그냥 컨트롤러에서 위처럼 사용하면 된다.
+  
+> 보니까 @RestController 쓰고 status는 항상 ok찍어두고  + 나머지 예외는 위 처럼 처리하면될듯.??  
+> 근데.. 중요한게 json format을 제어할수가 없네. api 마다 다를텐데.. 물론 BasicErrorController인경우도 상속해서 protected mehtod 오버라이드 하면되긴 하다고 했음..  
+> 근데 api마다 예외 json 형태가 다르단건 말이 안되는거 같아서.. 위 아이디어로 개발하는것도 나쁘진 않아보임  
+> 근데 비동기에서는 어찌 처리되려나.. 상관없나?
+
+## 스프링이 제공하는 ExceptionResolver2 (20)
 
 ## @ExceptionHandler
 
