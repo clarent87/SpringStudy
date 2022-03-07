@@ -145,10 +145,60 @@ HandlerExceptionResolver 는 예외를 처리해주는거지 html/json case를 �
   - > 나중에 참조하면 좋음 ( do~ method에 있음)
 
 앞서 예외가 was까지 갔다가 다시올라오는거 막으려고, ( 물론 sendError 그냥 보내서 다시 컨트롤러로 올라오게도 가능)
-직접 ExceptionResolver를 만들어서 예외를 핸들링 해보려는 작업들을 했는데, 매우 불편  
+직접 ExceptionResolver를 만들어서 예외를 핸들링 해보려는 작업들을 했는데, 매우 불편   
+보면 거의 서블릿 개발이지 spring 컨트롤러 개발이 아님.  
+그래서 spring rest api 개발하듯 예외 처리할수 있게 해주는게 아래 나오는 내용
 
 ## @ExceptionHandler (22)
 
-## @ControllerAdvice
+- 실무에서 api 예외처리는 전부 @ExceptionHandler로 진행
+
+```java
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorResult illegalExHandler(IllegalArgumentException e) {
+        log.error("[exceptionHandler] ex", e);
+        return new ErrorResult("BAD", e.getMessage());
+    }
+```
+
+`@ExceptionHandler` 가 호출되는 시점은 당연히 ExceptionHandler 호출되는 시점임 (pdf의 앞쪽에 나왔던 그림 참조)  
+ExceptionHandlerExceptionResolver가 우선순위가 높으니 이게 동작해서, 예외난 컨트롤러 class에 `@ExceptionHandler`가 있는지 보고  
+그거 호출해줌 (ExceptionHandlerExceptionResolver 코드는 매우 복잡하다함)   
+> 코드 보면 핸들러 정보 다넘어가고 있어서 @ExceptionHandler 찾는건 어렵지 않다고 함.  
+그리고 `@ExceptionHandler` 붙은 method에 @ResponseBody같은 것도 적용 가능
+  
+이걸로 처리하면 당연히 was에서 다시 컨트롤러로 예외가 올라가지 않음 ( 정상 흐름으로 처리하니까.. 이부분은 코드 참조)  
+
+- ApiExceptionV2Controller에 다양한 예제 작성함
+- pdf의 "@ExceptionHandler 예외 처리 방법" 절 부터 정리된 내용이 나오는데 매우 중요
+
+- 아래 처럼 한번에 여러 exception type 처리 가능
+```java
+@ExceptionHandler({AException.class, BException.class})
+public String ex(Exception e) { // AException, BException 의 부모 class 넣어줘야함.. 당연..그래야 두 type을 받을수 있지..
+ log.info("exception e", e);
+}
+
+```
+  
+예시에서 만든 @ExceptionHandler method로는 param으로 exception만 받았는데. 사실 다양한 파라메터를 받을수 있고, 응답으로도
+다양한 type 쓸수 있다. 마치 controller(핸들러) 만들던거 처럼.. 
+> 여기서 controller는 controller class 말하는거 아님. method를 지칭. 원래 그걸 지칭하는거..  
+> pdf에 지원하는 파라메터, 응답link있음
+  
+- ExceptionHandler에서 `@responseBody` 없이 string 반환하면 viewResolver 동작
+  - > `@responseBody` 있으면. 그냥 http body에 string찍히는 거였나.. 그럼 json은 object일때만 치환해주는거 였고..
+  - > 원리는 objectMapper.
+
+- ExceptionHandler에 @ResponseStatus를 붙여서 상태코드 줄수도 있지만. 
+  - 여전히 ResponseEntity를 이용해서 동적으로 상태코드 처리도 가능 
+  - > ExceptionHandler에 @ResponseStatus를 붙이는 것만으로도 대다수 처리 가능할거 같은데.. 
+  - > 그래도 이게 필요한 case들이 있긴 한듯
+  
+아직 단점이 있음 ExceptionHandler는 정의한 controller에서 밖에 못씀.. 즉 딴데서도 쓰려면 복붙해야함..
+그래서! ControllerAdvice가 나옴
+
+
+## @ControllerAdvice (29)
 
 ## 정리
