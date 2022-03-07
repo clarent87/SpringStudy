@@ -201,4 +201,17 @@ public String ex(Exception e) { // AException, BException 의 부모 class 넣�
 
 ## @ControllerAdvice (29)
 
+- @ExceptionHandler 를 사용해서 예외를 깔끔하게 처리할 수 있게 되었지만, 
+- 정상 코드와 예외 처리 코드가 하나의 컨트롤러에 섞여 있다. 
+- @ControllerAdvice 또는 @RestControllerAdvice 를 사용하면둘을 분리할 수 있다
+
+- `@RestControllerAdvice`
+  - 앞서 작업한 exceptionHandler를 위 어노테이션 붙은 class에 모아둘수 있다
+    - 이러면 모든 controller에 exceptionhandler가 다걸림 (대상 지정 안했기 때문)
+  - 즉 마치 controller용 aop같다.
+  - RestControllerAdvice나 ControllerAdvice나 같은것. RestControllerAdvice는 responseBody가 붙은게 차이임
+  - 원래 대상 지정해서 쓸수 있는데, 대상 지정 안하면 모든 컨트롤러에 다걸림
+
+AOP랑 비슷.. Advice란 이름도 AOP에서 온것
+
 ## 정리
