@@ -230,3 +230,7 @@ AOP랑 비슷.. Advice란 이름도 AOP에서 온것
 
 
 ## 정리
+
+- ExceptionResolver (9p)
+  - 이거 호출하는 코드는 디스패쳐서블릿에 있다고 함
+    - 빈 ModelAndView, ModelAndView 지정, null 에 따른 동작이 코드에 있음
