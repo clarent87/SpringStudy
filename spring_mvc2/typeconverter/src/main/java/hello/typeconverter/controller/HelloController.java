@@ -1,5 +1,6 @@
 package hello.typeconverter.controller;
 
+import hello.typeconverter.type.IpPort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +18,20 @@ public class HelloController {
         return "ok";
     }
 
+
+    // 컨버터 등록 후 내 컨버터가 우선순위가 높아서 그게 적용됨. 즉 log가 나옴
     @GetMapping("/hello-v2")
     public String helloV2(@RequestParam Integer data) { // rq param의 이름이 data여야함
         System.out.println("data = " + data);
+        return "ok";
+    }
+
+    // TODO: ModalAttribute로 받는거랑은 다르다. 그건 requsetParam 여러개 일때 객체에 담는것
+    // 이건 단일 스트링을 쪼개서 IpPort 객체에 넣는것
+    @GetMapping("/ip-port")
+    public String ipPort(@RequestParam IpPort ipPort) {
+        System.out.println("ipPort IP = " + ipPort.getIp());
+        System.out.println("ipPort PORT = " + ipPort.getPort());
         return "ok";
     }
 
