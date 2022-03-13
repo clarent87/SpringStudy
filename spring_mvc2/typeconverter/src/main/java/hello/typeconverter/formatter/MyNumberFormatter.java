@@ -16,7 +16,7 @@ public class MyNumberFormatter implements Formatter<Number> { // string formatte
         // "1,000" -> 1000
         // 근데 위 기능 직접 구현하면 골치아픔. 그래서 java에서 미리 해당 기능을 제공함 그게 NumberFormat
         NumberFormat format = NumberFormat.getNumberInstance(locale);
-        return format.parse(text); // 내부적으로 Number의 구현체인 Long이 반환되나봄
+        return format.parse(text); // 내부적으로 Number의 구현체인 Long이 반환되나
     }
 
     @Override

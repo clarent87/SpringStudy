@@ -35,7 +35,7 @@ public class ConverterController {
 
     @Data
     static class Form {
-        private IpPort ipPort; // 컨버터 사용됨
+        private IpPort ipPort; // 등록한 컨버터 사용됨
 
         public Form(IpPort ipPort) {
             this.ipPort = ipPort;
