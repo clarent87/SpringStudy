@@ -25,8 +25,8 @@ public class FormattingConversionServiceTest {
         assertThat(ipPort).isEqualTo(new IpPort("127.0.0.1", 8080));
 
         //포멧터 사용
-        assertThat(conversionService.convert(1000, String.class)).isEqualTo("1,000"); // 포매터의 pring 동작
-        assertThat(conversionService.convert("1,000", Long.class)).isEqualTo(1000L);  // 포매터의 parse 동작
+        assertThat(conversionService.convert(1000, String.class)).isEqualTo("1,000"); // 포매터의 print 동작
+        assertThat(conversionService.convert("1,000", Long.class)).isEqualTo(1000L);  // 포매터의 parse 동작. target이 number의 구현체인게 특이
 
     }
 }

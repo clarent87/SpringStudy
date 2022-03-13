@@ -19,7 +19,8 @@ public class HelloController {
     }
 
 
-    // 컨버터 등록 후 내 컨버터가 우선순위가 높아서 그게 적용됨. 즉 log가 나옴
+    // (1) 컨버터 등록 후 내 컨버터가 우선순위가 높아서 그게 적용됨. 즉 만든 컨버에 있던 log가 나옴
+    // (2) 포매터 적용후 (컨버터는 주석처리) param으로 "10,000"을 주면 포매터가 동작해서 10000이 들어감 ( 원리는 포매터컨버전서비스Test와 동일한듯)
     @GetMapping("/hello-v2")
     public String helloV2(@RequestParam Integer data) { // rq param의 이름이 data여야함
         System.out.println("data = " + data);
