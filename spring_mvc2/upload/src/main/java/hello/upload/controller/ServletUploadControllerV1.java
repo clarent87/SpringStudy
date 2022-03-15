@@ -22,7 +22,7 @@ public class ServletUploadControllerV1 {
         return "upload-form";
     }
 
-    @PostMapping("/uplaod")
+    @PostMapping("/upload")
     public String saveFileV1(HttpServletRequest request) throws ServletException, IOException {
         log.info("request = {}", request); // 알던 request 객체 타임이 아님.
                                             // 원래 톰캣 기본 구현체는, RequsetFacade였다. 근데 여기서는 StandardMultiPartSevletRequest가옴
