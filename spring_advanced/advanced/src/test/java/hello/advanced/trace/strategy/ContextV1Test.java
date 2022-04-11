@@ -113,6 +113,7 @@ public class ContextV1Test {
     @Test
     void strategyV4() {
 
+        // 약간 의존관계 주입.. 같은거
         ContextV1 context1 = new ContextV1(() -> log.info("비즈니스 로직1 실행"));
         context1.execute();
 
