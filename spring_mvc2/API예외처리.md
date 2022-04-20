@@ -30,6 +30,9 @@ server.error.include-stacktrace=always
 
 ## HandlerExceptionResolver 시작 (7)
 
+try/catch 처럼 기본적으로 예외를 처리해서 정상 흐름을 만드는 것이 목표. 
+일부 예시에서는 ExceptionResolver 안에서 sendError를 넣어서 was에서 다시 예외가 올라오도록 하기도함
+
 - 500에러는 internal error
   - > 기본적으로 에러가 was까지 가면 이게 나옴 BasicErrorController json 응답.. 에 찍힘
   - > was가 500으로 처리하는것으로 설명됨.
@@ -52,6 +55,8 @@ server.error.include-stacktrace=always
 - **반환값에 따른 동작 방식** --> 이거 매우 중요!!
   - 빈 ModelAndView : 뷰 렌더링 없이 was까지 진행함. ( 보통은 예외를 수정해서 전달하는 목적인듯) --> 코드,PDF 참조
     - > 예제에서는 500 error 나가는거 막으려고 여기서 request.sendError로 400에러로 치환해서 내보냄
+    - > 이러면 WAS에서 서블릿 오류 페이지를 찾아서 내부 호출. ex /error의 가 호출됨. -> 이거 상태 코드 기반 예외 처리 였음
+    - request.senderror를 logic에서 안먹이면 당연히 예외는 처리된거라서 정상 종료됨
   - ModelAndView 지정 : html 페이지 렌더링함. 즉 오류 페이지 렌더링 같은거 가능
     - > 앞선 강좌의 예외 flow ( 컨트롤러 -> 서블릿 -> was -> 다시 올라옴) 의 경우는 컨트롤러의 return이 view이지만 throw로 예러가 나갔을때 case
     - > 아마  ModelAndView 지정은, throw로 에러가 나가지 않으니 아마 렌더링된 뷰 만들어서 client에 전달하고 끝일듯...
@@ -103,7 +108,7 @@ HandlerExceptionResolver 는 예외를 처리해주는거지 html/json case를 �
   - 다음 두가지를 처리
   - @ResponseStatus 가 달려있는 예외
   - ResponseStatusException 예외
-  - > ResponseStatusExceptionResolver에 가보이 messageSource라는거 쓰고 있네 👍
+  - > ResponseStatusExceptionResolver에가 보니 messageSource라는거 쓰고 있네 👍
 
 - ResponseStatusExceptionResolver 원리
   - MyHandlerExceptionResolver와 동일.. 
@@ -200,6 +205,8 @@ public String ex(Exception e) { // AException, BException 의 부모 class 넣�
 
 
 ## @ControllerAdvice (29)
+
+- @ControllerAdvice 는 대상으로 지정한 여러 컨트롤러에 @ExceptionHandler , @InitBinder 기능을 부여해주는 역할을 한다
 
 - @ExceptionHandler 를 사용해서 예외를 깔끔하게 처리할 수 있게 되었지만, 
 - 정상 코드와 예외 처리 코드가 하나의 컨트롤러에 섞여 있다. 
