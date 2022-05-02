@@ -94,7 +94,6 @@
   - `.` : 정확하게 해당 위치의 패키지
   - `..` : 해당 위치의 패키지와 그 하위 패키지도 포함
 
-
 여기는 코드 참조하는게 좋음. 주석 달아둠
 
 ## execution - 2 (9)
@@ -104,6 +103,7 @@
   - 파라메터 매칭 소개
 
 - 간단 예시  (이건 당연한 예시)
+
   ```java
       // type은 class를 말하는거. 보면 정확하게 매칭된다. 
       // MemberServiceImpl.* 에서 .뒤의 *는 method명에 매칭됨
@@ -115,6 +115,7 @@
   ```
 
 - 아래 예시가 중요
+
   ```java
     pointcut.setExpression("execution(* hello.aop.member.MemberService.*(..))");
     // helloMethod 는 MemberService interface에 있음. 그래서 매칭이 됨 (부모 타입에 매칭 가능)
@@ -130,11 +131,53 @@
   - `"execution(* *(String, ..))"`
     - 요거 이해하면 끝 --> 코드나 pdf 참조 하기 바람
 
-## within
+## within (12)
 
-## args
+- 개요
+  - within PCD 소개
+  
+- within
+  - 해당 타입(class)이 매칭되면 **그 안의 메서드(조인 포인트)들**이 자동으로 매칭된다.
+  - 문법은 단순한데 execution 에서 타입 부분만 사용한다고 보면 된
+  - > 잘사용 안하는 PCD임
 
-## @target, @within
+- 주의점! 👍
+  - within 사용시 주의해야 할 점이 있다. 표현식에 부모 타입을 지정하면 안된다는 점이다.
+  - 정확하게 타입이 맞아야 한다. 이 부분에서 execution 과 차이가 난다.
+
+문법 자체는 쉽네, 말한대로 execution 문법의 타입 부분만 사용함
+  
+여튼 이거는 잘사용안함. 이거 대신 execution을 쓰게됨. 별이유 때문에 그런건 아니고  
+within에 적용할수 있는 문법이 type에만 한정되어서.. 그리고 인터페이스를 대상으로 포인트컷을 걸기도 하는데
+execution으로는 되도, within으로는 안됨.. 
+
+## args (14)
+
+- 개요
+  - args 소개 
+  - ArgsTest 작성함
+  - > 근데 within처럼 딱히 중요한 것은 아닌가봄
+
+- args
+  - within은 execution 의 타입 부분만으로 매칭하는거라면
+  - args는 execution의 param 부분만으로 매칭하는것
+    - > 근데 execution의 param 매칭이랑은 차이가 있다. 약간
+  
+- 기본 문법은 execution 의 args 부분과 같다
+- execution과 args의 차이점
+  - execution 은 파라미터 타입이 정확하게 매칭되어야 한다. 
+  - execution 은 클래스에 선언된 정보를 기반으로 판단한다.
+  - args 는 부모 타입을 허용한다. args 는 실제 넘어온 파라미터 객체 인스턴스를 보고 판단한다
+  - > execution의 경우 문법에서 타입(class) 부분은 부모 class로 받는게 가능했음
+  - > 근데 param의 경우 Method에 선언된 param type이랑 문법으로 명시한 type이 정확히 일치해야했음
+  - > args는 클래스에 선언된 정보를 기반으로 매칭하는게 아니라, 실제 넘어온 객체를 보고 판단하니까, 부모 타입 매칭 가능
+
+- 참고
+  - args 지시자는 단독으로 사용되기 보다는 뒤에서 설명할 파라미터 바인딩에서 주로 사용된다.
+
+강좌에서 이 다음 절은 this, target라고 하는데, 구성된 강좌는 @target,@within이네.. 
+
+## @target, @within (17)
 
 ## @annotation, @args
 
