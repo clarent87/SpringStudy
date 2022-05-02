@@ -175,8 +175,6 @@ execution으로는 되도, within으로는 안됨..
 - 참고
   - args 지시자는 단독으로 사용되기 보다는 뒤에서 설명할 파라미터 바인딩에서 주로 사용된다.
 
-강좌에서 이 다음 절은 this, target라고 하는데, 구성된 강좌는 @target,@within이네.. 
-
 ## @target, @within (17)
 
 ## @annotation, @args
