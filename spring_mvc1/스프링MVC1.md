@@ -868,7 +868,7 @@ pdf의 주의사항 참조 필요!
 - redirect관련 자세한 내용은. http 강좌에 있다고함
   - > 이거 한번 들어보는것도 좋겠는데..
 
-- HTML Form 전송은 PUT, PATCH를 지원하지 않는다. GET, POST만 사용할 수 있다.
+- **HTML Form 전송은 PUT, PATCH를 지원하지 않는다. GET, POST만 사용할 수 있다.** 👍
   - PUT, PATCH는 HTTP API(rest api) 에 사용   
   - HTTP POST로 Form 요청할 때 특정 히든 필드에 값을 세팅하면, spring은 해당 form처리를 PUT, PATCH 매핑을 통해 하기도함 
     - 근데 어쨋든 client에서  HTTP 요청은 POST로 진행
