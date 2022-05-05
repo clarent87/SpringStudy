@@ -267,6 +267,26 @@ execution으로는 되도, within으로는 안됨..
 
 ## @annotation, @args (20)
 
+- 리마인드
+  - @Aspect - @Around로 proxy 생성
+    - @Aspect 붙인 class는 빈등록을 해줘야함. 
+      - 자동 프록시 생성기(빈후처리기) 가 이거랑 Advisor 빈들 을 처리해줌
+    - @Around에는 포인트컷내용(PCD)를 작성해주고, method body에 advice 내용을 작성
+    - 이떄 advice의 반환은 Object 이다. 
+      - @Around 외 나머지 5개 어드바이스 만들땐 return이 void임.
+
+- 개요
+  - @annotation 는 메소드에 걸린 annotation을 보고 판단하는 PCD
+  - 앞선 강좌의 @target, @within 는 클래스에 걸린 어노테이션을 보고 판단하는 거였음
+  - > 이건 가끔 쓰인다고 함
+  - > 해보니 간단함
+
+- @args 는 예제 없이 설명만 진행
+  - `@args(test.Check)`
+    - 전달된 인수의 런타임 타입에 @Check 애노테이션이 있는 경우에 매칭한다.
+    - 즉, 런타임시 `MemberService.hello(ClassA)` 란 메소드를 호출한경우 파라메터인 ClassA에 @Check가 붙어있으면 매칭되서 호출됨 
+  - > 잘 안씀
+
 ## bean
 
 ## 매개변수 전달
