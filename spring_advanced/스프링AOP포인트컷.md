@@ -321,9 +321,18 @@ execution으로는 되도, within으로는 안됨..
   - > 중요하다고 함
   - args PCD 사용법이랑 다시 비교해보면서 보는게 좋음
 
+- 중요 포인트
+  - PCD마다 전달 받을수 있는 값이 다름
+  - args 로는 진짜로 param을 전달 받을수 있고 ( 물론 그래도 args PCD는 적용됨)
+  - this, target으로는 현재 객체를 받을수 있음 ( this는 프록시 객체 받고, target은 실제 객체 )
+  - @annotation으로는 target method에 적용된 어노테이션을 받아올수 잇음
+  - @target, @within으로는 현태 target class에 적용된 어노테이션을 받아올수 잇음
+
 - 중요 포인트 👍
   - ProceedingJoinPoint 로 param을 꺼낼수 있는데 이러면 **가독성이 좋지가 않다.**
   - 그래서 포인트컷 매개변수 전달을 이용함
+  - > 단 모든 PCD에서 param을 꺼낼수 있는건 아닌듯. 
+  - > 물론 그냥 포인트컷으로 매개변수를 받고 싶다면, PCD && args(arg,..) 찍고 type을 Object로 받으면 되긴 할듯. 
 
   ```java
   @Around("allMember()")
@@ -427,6 +436,5 @@ execution으로는 되도, within으로는 안됨..
     - 포인트컷으로 일단 프록시를 만들지 안만들지 결정하는데 사용함.
     - > 근데 항상 ture인 포인트컷은 모든 bean에 걸리기 때문에 오류나는데.. 위와 같은 경우는 MemberService 랑 매칭되는 모든 bean을 프록시로 만드나봄
   - > 답변은 잘 모르겠지만 그런거 같다고함
-
 
 ## 정리
