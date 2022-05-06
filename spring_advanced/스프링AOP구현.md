@@ -160,7 +160,7 @@
   - @Before
     - 조인 포인트 실행 이전에 실행
     - 이거 사용하면 @Before 어드바이스 호출후 joinpoint (즉, target)은 자동으로 호출된다.
-    - `JoinPoint joinPoint` 파라메터를 받도록 advice를 만들었는데, 이거 필요 없으면 파라메터 없이 advice만들어도 된다.
+    - `JoinPoint joinPoint` 파라메터를 받도록 advice를 만들었는데, 이거 필요 없으면 **파라메터 없이 advice만들어도** 된다.
     - `@Before("hello.aop.order.aop.Pointcuts.orderAndService()")`
       - > 당연히 Around 때처럼 annotation 안에는 포인트컷 넣어야함
   - @AfterReturning
