@@ -88,3 +88,5 @@ pdf 참조
 - 이거 @Aspect의 @Around에서 asspectj expression으로 해당 어노테이션 붙은 빈을 대상으로 -> 포인트컷
 - advice를 적용했던거 같음. 즉 @Around를 이용한 포인트컷에서 어노테이션을 target으로 프록시 생성이 가능하단것..
 - > 맞나 확인 필요
+- 스프링 AOP의 제약사항은 아래 블로그 정리가 좋네
+  - https://sg-choi.tistory.com/290

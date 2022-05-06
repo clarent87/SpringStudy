@@ -64,6 +64,16 @@
     - > ? 가 안붙었으니 필수
   - 예외?: 생략
 
+- 중요 사실!! 👍 👍
+  - 강좌에 언급이 안되었는데
+  - 포인트컷의 접근 제어자는 의미가 없다.
+    - <https://docs.spring.io/spring-framework/docs/3.1.x/spring-framework-reference/html/aop.html#aop-introduction-spring-defn>
+      - 여기에 As a consequence, any given pointcut will be matched against public methods only! 라고 명시됨
+    - 내 생각에 접근제어자 문법은 aspectj꺼 가져오다 보니 그냥 있게 된거 같다.
+    - 여튼 Spring AOP는 프록시 패턴 기반으로 구현되다 보니, java 상속의 제약을 벗어날수는 없음
+      - 물론 cglib이 어느정도 바이트 코드 조작을 한다고는 하지만.. ( 아마 클래스 상속해서 프록시 클래스 만드는거 정도 일거 같은데.. )
+        - <https://taes-k.github.io/2021/04/25/byte-code-instrumentation/>
+
 - 가장많이 생략한 코드 👍
   - `"execution(* *(..))"`
   - 위 코드는 풀어쓰면 다음과 같음
@@ -331,8 +341,8 @@ execution으로는 되도, within으로는 안됨..
 - 중요 포인트 👍
   - ProceedingJoinPoint 로 param을 꺼낼수 있는데 이러면 **가독성이 좋지가 않다.**
   - 그래서 포인트컷 매개변수 전달을 이용함
-  - > 단 모든 PCD에서 param을 꺼낼수 있는건 아닌듯. 
-  - > 물론 그냥 포인트컷으로 매개변수를 받고 싶다면, PCD && args(arg,..) 찍고 type을 Object로 받으면 되긴 할듯. 
+  - > 단 모든 PCD에서 param을 꺼낼수 있는건 아닌듯.
+  - > 물론 그냥 포인트컷으로 매개변수를 받고 싶다면, PCD && args(arg,..) 찍고 type을 Object로 받으면 되긴 할듯.
 
   ```java
   @Around("allMember()")
