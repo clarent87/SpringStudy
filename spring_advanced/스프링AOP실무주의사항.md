@@ -199,3 +199,9 @@
     - 과거 JPA 스펙을 지정할 때는 objenesis 같은 것이 없었지요
 
 ## 정리
+
+## 내가 추가함
+
+- spring aop를 이용한경우 proxy 적용된 class의 method에서 this를 return하면 target instance가 return 되는것이 아닌
+- proxy가 return 된다.
+- > this값이 method 내에서는 target을 가리키는데, return 이후에는 proxy의 값으로 변경됨
